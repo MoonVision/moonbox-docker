@@ -4,12 +4,14 @@ FROM ${baseimage}
 
 COPY . /bd_build
 
+ENV CPATH="/opt/conda/include/"
+ENV PATH="$PATH:/opt/conda/bin/"
+
 RUN apt-get update -y \
  && apt-get install -y \
     libsm6 \
     libgomp1 \
-    libssl-dev \
- && bash /bd_build/install_conda.sh
+    libssl-dev
+RUN bash /bd_build/install_conda.sh
+RUN bash /bd_build/install_conda2.sh
 
-ENV PATH="$PATH:/opt/conda/bin/"
-ENV CPATH="/opt/conda/include/"

@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+conda clean -tipsy
+conda install --yes python=3.6.8 \
+                    mkl=2019.4 \
+                    mkl-include=2019.4 \
+                    six==1.11.0 \
+                    pip ninja pyyaml \
+                    setuptools cffi typing \
+                    swig
+conda install --yes -c pytorch protobuf
+conda install --yes -c conda-forge numpy=1.16.4 \
+                                    pybind11 \
+                                    blas
+conda clean --all --yes
+pip install setuptools \
+    opencv-python-headless==3.4.5.20 \
+    opencv-contrib-python-headless==3.4.5.20
+
+echo '# Conda (base) library folder' >> /etc/ld.so.conf.d/conda-libs.conf
+echo '/opt/conda/lib' >> /etc/ld.so.conf.d/conda-libs.conf
