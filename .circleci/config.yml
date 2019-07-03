@@ -23,6 +23,8 @@ commands:
               exit 0
             fi
 
+            echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USER --password-stdin
+
             while read in; do docker push "$in"; done < /ci/docker_tags.txt
 
   build-docker-image:

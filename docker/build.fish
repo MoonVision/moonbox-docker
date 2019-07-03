@@ -38,12 +38,6 @@ echo "$DBI_IMAGENAME:$docker_tag" | tee /ci/docker_main_tag.txt
 echo "$DBI_IMAGENAME:$docker_tag" | tee /ci/docker_tags.txt
 echo "$DBI_IMAGENAME:$docker_tag_latest" | tee /ci/docker_tags.txt
 
-echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USER --password-stdin
-if test "$DBI_BASEIMAGE" != "scratch"
-    eval $DBI_DOCKEREXE pull "$DBI_BASEIMAGE"
-end
-pwd
-
 docker build -f $DBI_DOCKERFILE -t $DBI_IMAGENAME:$docker_tag -t $DBI_IMAGENAME:$docker_tag_latest $baseimage_param $additional_buildargs "$DBI_PATH"
 echo Build finished
 docker images
