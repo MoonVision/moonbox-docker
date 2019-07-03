@@ -1,0 +1,319 @@
+version: 2.1
+
+commands:
+  preparation-steps:
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /home/circleci
+      - setup_remote_docker
+
+  push-docker-image:
+    description: Push the docker images created by build-docker-image.
+    parameters:
+      skip:
+        type: boolean
+        default: false
+    steps:
+      - run:
+          name: Push the docker images
+          command: |
+            if [ "skip:true" == "skip:<< parameters.skip >>" ]
+            then
+              exit 0
+            fi
+
+            while read in; do docker push "$in"; done < /ci/docker_tags.txt
+
+  build-docker-image:
+    description: Build a vid-vision docker image
+    parameters:
+      imagename:
+        type: string
+      additionaltag:
+        type: string
+        default: ""
+      tagversion:
+        type: string
+        default: ${CIRCLE_SHA1:0:8}
+      path:
+        type: string
+        default: .
+      dockerfile:
+        type: string
+        default: "docker/Dockerfile"
+      baseimage:
+        type: string
+      additional_buildargs:
+        type: string
+        default: ''
+    steps:
+      - run: apk add fish tar
+      - run:
+          name: Build image << parameters.imagename >>
+          command: >
+            DBI_IMAGENAME="<< parameters.imagename >>"
+            DBI_ADDITIONALTAG="<< parameters.additionaltag >>"
+            DBI_TAGVERSION="<< parameters.tagversion >>"
+            DBI_PATH="<< parameters.path >>"
+            DBI_DOCKERFILE="<< parameters.dockerfile >>"
+            DBI_BASEIMAGE="<< parameters.baseimage >>"
+            DBI_ADDITIONAL_BUILDARGS="<< parameters.additional_buildargs >>"
+            fish docker/build.fish
+          no_output_timeout: 1200
+
+jobs:
+  docker-common-base:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/common-base
+          path: docker/common-base/image
+          dockerfile: docker/common-base/image/Dockerfile
+          baseimage: ubuntu:18.04
+          additional_buildargs: |
+            disable_ssh: true
+            disable_cron: true
+      - push-docker-image
+
+  docker-common-base-cuda:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/common-base
+          additionaltag: cuda
+          path: docker/common-base/image
+          dockerfile: docker/common-base/image/Dockerfile
+          baseimage: nvidia/cuda:10.0-devel-ubuntu18.04
+          additional_buildargs: |
+            disable_ssh: true
+            disable_cron: true
+      - push-docker-image
+
+  docker-python-base:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/python-base
+          path: docker/python-base
+          dockerfile: docker/python-base/Dockerfile
+          baseimage: moonvision/common-base:latest
+      - push-docker-image
+
+  docker-python-base-cuda:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/python-base
+          additionaltag: cuda
+          path: docker/python-base
+          dockerfile: docker/python-base/Dockerfile
+          baseimage: moonvision/common-base:cuda-latest
+      - push-docker-image
+
+  build-ffmpeg:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/custom-builds
+          additionaltag: ffmpeg
+          tagversion: 3.4.6
+          path: docker/builders/ffmpeg
+          dockerfile: docker/builders/ffmpeg/Dockerfile
+          baseimage: ubuntu:18.04
+          additional_buildargs: |
+            ffmpeg_version: 3.4.6
+      - push-docker-image
+
+  build-ffmpeg-cuda:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/custom-builds
+          additionaltag: ffmpeg-cuda
+          tagversion: 3.4.6
+          baseimage: moonvision/python-base:cuda-latest
+          path: docker/builders/ffmpeg
+          dockerfile: docker/builders/ffmpeg/Dockerfile
+          additional_buildargs: |
+            ffmpeg_version: 3.4.6
+            with_cuda: true
+      - push-docker-image
+
+  build-pytorch:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/custom-builds
+          additionaltag: pytorch
+          tagversion: 1.1.0_torchvision-0.3.0
+          baseimage: moonvision/python-base
+          path: docker/builders/pytorch
+          dockerfile: docker/builders/pytorch/Dockerfile
+          additional_buildargs: |
+            pytorch_tag: v1.1.0
+            torchvision_tag: v0.3.0
+      - push-docker-image
+
+  build-pytorch-cuda:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/custom-builds
+          additionaltag: pytorch-cuda
+          tagversion: 1.1.0_torchvision-0.3.0
+          baseimage: moonvision/python-base:cuda-latest
+          path: docker/builders/pytorch
+          dockerfile: docker/builders/pytorch/Dockerfile
+          additional_buildargs: |
+            pytorch_tag: v1.1.0
+            torchvision_tag: v0.3.0
+      - push-docker-image
+
+  build-cmake:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/custom-builds
+          additionaltag: cmake
+          tagversion: 3.14.5
+          path: docker/builders/cmake
+          dockerfile: docker/builders/cmake/Dockerfile
+          baseimage: ubuntu:18.04
+          additional_buildargs: |
+            cmake_tag: v3.14.5
+      - push-docker-image
+
+  docker-moonbox-mini:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/moonbox
+          additionaltag: mini
+          path: docker/moonbox
+          dockerfile: docker/moonbox/Dockerfile
+          baseimage: moonvision/python-base:latest
+      - push-docker-image
+
+  docker-moonbox-genicam:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/moonbox
+          additionaltag: genicam
+          path: docker/moonbox
+          dockerfile: docker/moonbox/Dockerfile
+          baseimage: moonvision/python-base:latest
+          additional_buildargs: |
+            with_genicam: true
+      - push-docker-image
+
+  docker-moonbox-basler:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/moonbox
+          additionaltag: basler
+          path: docker/moonbox
+          dockerfile: docker/moonbox/Dockerfile
+          baseimage: moonvision/python-base:latest
+          additional_buildargs: |
+            with_genicam: true
+            with_pylon: true
+      - push-docker-image
+
+  docker-moonbox-cuda:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/moonbox
+          additionaltag: cuda
+          path: docker/moonbox
+          dockerfile: docker/moonbox/Dockerfile
+          baseimage: moonvision/python-base:cuda-latest
+          additional_buildargs: |
+            with_genicam: true
+            with_pylon: true
+            with_cuda: true
+            ffmpeg_from_docker: moonvision/custom-builds:ffmpeg-cuda-3.4.6
+            pytorch_from_docker: moonvision/custom-builds:pytorch-cuda-1.1.0_torchvision-0.3.0
+      - push-docker-image
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - docker-common-base
+      - docker-common-base-cuda
+      - docker-python-base:
+          requires:
+            - docker-common-base
+      - docker-python-base-cuda:
+          requires:
+            - docker-common-base-cuda
+      - build-ffmpeg
+      - build-cmake
+      - build-ffmpeg-cuda:
+          requires:
+            - docker-python-base-cuda
+      - build-pytorch:
+          requires:
+            - docker-python-base
+            - build-cmake
+      - build-pytorch-cuda:
+          requires:
+            - docker-python-base-cuda
+            - build-cmake
+      - build-moonbox-approval:
+          type: approval
+          requires:
+            - docker-python-base
+            - build-ffmpeg
+            - build-pytorch
+      - docker-moonbox-mini:
+          requires:
+            - docker-python-base
+            - build-ffmpeg
+            - build-pytorch
+      - docker-moonbox-genicam:
+          requires:
+            - docker-python-base
+            - build-ffmpeg
+            - build-pytorch
+      - docker-moonbox-basler:
+          requires:
+            - docker-python-base
+            - build-ffmpeg
+            - build-pytorch
+      - docker-moonbox-cuda:
+          requires:
+            - docker-python-base-cuda
+            - build-ffmpeg-cuda
+            - build-pytorch-cuda
+
