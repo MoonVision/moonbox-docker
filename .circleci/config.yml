@@ -294,12 +294,6 @@ workflows:
           requires:
             - docker-python-base-cuda
             - build-cmake
-      - build-moonbox-approval:
-          type: approval
-          requires:
-            - docker-python-base
-            - build-ffmpeg
-            - build-pytorch
       - docker-moonbox-mini:
           requires:
             - docker-python-base
