@@ -8,26 +8,27 @@ commands:
           at: /home/circleci
       - setup_remote_docker
 
-  push-docker-image:
-    description: Push the docker images created by build-docker-image.
+  run-with-shell:
     parameters:
-      skip:
-        type: boolean
-        default: false
+      run-name:
+        type: string
+      command:
+        type: string
+      shell:
+        type: string
+        default: /usr/bin/env sh
     steps:
       - run:
-          name: Push the docker images
+          name: << parameters.run-name >>
           command: |
-            if [ "skip:true" == "skip:<< parameters.skip >>" ]
-            then
-              exit 0
-            fi
-
-            cat /ci/docker_tags.txt
-
-            echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USER --password-stdin
-
-            while read in; do docker push "$in"; done < /ci/docker_tags.txt
+            script_file=`mktemp -t scriptfile_XXXXXXXX`
+            echo "set -x CIRCLE_SHA1 $CIRCLE_SHA1" >> $script_file
+            echo "set -x CIRCLE_BRANCH $CIRCLE_BRANCH" >> $script_file
+            cat \<< 'EOF' >> $script_file
+            << parameters.command >>
+            EOF
+            << parameters.shell >> < $script_file
+          no_output_timeout: 1200
 
   build-docker-image:
     description: Build a vid-vision docker image
@@ -39,7 +40,7 @@ commands:
         default: ""
       tagversion:
         type: string
-        default: ${CIRCLE_SHA1:0:8}
+        default: (git rev-parse --short=8 HEAD)
       path:
         type: string
         default: .
@@ -51,20 +52,69 @@ commands:
       additional_buildargs:
         type: string
         default: ''
+      shell:
+        type: string
+        default: /usr/bin/env fish
+      docker_exe:
+        type: string
+        default: docker
     steps:
-      - run: apk add fish tar
-      - run:
-          name: Build image << parameters.imagename >>
-          command: >
-            DBI_IMAGENAME="<< parameters.imagename >>"
-            DBI_ADDITIONALTAG="<< parameters.additionaltag >>"
-            DBI_TAGVERSION="<< parameters.tagversion >>"
-            DBI_PATH="<< parameters.path >>"
-            DBI_DOCKERFILE="<< parameters.dockerfile >>"
-            DBI_BASEIMAGE="<< parameters.baseimage >>"
-            DBI_ADDITIONAL_BUILDARGS="<< parameters.additional_buildargs >>"
-            fish docker/build.fish
-          no_output_timeout: 1200
+      - run: apk add fish tar python3 py3-yaml jq
+      - run-with-shell:
+          run-name: Build image << parameters.imagename >>
+          shell: << parameters.shell >>
+          command: |
+            if not git remote get-url origin
+              set CI_WORKING_DIRECTORY (mktemp -d -t docker-build.XXXXXXXX)
+              cd $CI_WORKING_DIRECTORY
+              git clone https://github.com/MoonVision/moonbox-docker.git
+              cd moonbox-docker
+              git checkout $CIRCLE_SHA1
+            end
+
+            set docker_tag ""
+
+            if test "<< parameters.additionaltag >>"
+              set docker_tag "<< parameters.additionaltag >>"
+            end
+
+            if test "<< parameters.tagversion >>"
+              if test "$docker_tag"
+                set docker_tag_latest "$docker_tag-latest"
+                set docker_tag $docker_tag-<< parameters.tagversion >>
+              else
+                set docker_tag_latest "latest"
+                set docker_tag << parameters.tagversion >>
+              end
+            end
+
+            set baseimage_param ""
+
+            set additional_buildargs
+
+            if test "<< parameters.additional_buildargs >>"
+              alias yaml2json "python3 -c 'import yaml,json,sys; sys.stdout.write(json.dumps(yaml.load(sys.stdin), sort_keys=True, indent=2))'"
+              alias object2buildargs 'jq --raw-output \'to_entries | map("--build-arg", "\(.key)=\(.value)") | join("\n")\''
+              set additional_buildargs (echo "<< parameters.additional_buildargs >>" | yaml2json | object2buildargs)
+            end
+
+            if test "<< parameters.baseimage >>"
+              set baseimage_param --build-arg baseimage="<< parameters.baseimage >>"
+            end
+
+            << parameters.docker_exe >> build --pull -f "<< parameters.dockerfile >>" -t << parameters.imagename >>:$docker_tag -t << parameters.imagename >>:$docker_tag_latest $baseimage_param $additional_buildargs "<< parameters.path >>"
+            echo Build finished
+
+            if test "$CI_WORKING_DIRECTORY"
+              rm -rf $CI_WORKING_DIRECTORY
+            end
+
+            << parameters.docker_exe >> images
+
+            echo "$DOCKER_PASSWORD" | << parameters.docker_exe >> login -u $DOCKER_USER --password-stdin
+
+            << parameters.docker_exe >> push << parameters.imagename >>:$docker_tag
+            << parameters.docker_exe >> push << parameters.imagename >>:$docker_tag_latest
 
 jobs:
   docker-common-base:
@@ -80,7 +130,6 @@ jobs:
           additional_buildargs: |
             disable_ssh: true
             disable_cron: true
-      - push-docker-image
 
   docker-common-base-cuda:
     docker:
@@ -96,7 +145,6 @@ jobs:
           additional_buildargs: |
             disable_ssh: true
             disable_cron: true
-      - push-docker-image
 
   docker-python-base:
     docker:
@@ -108,7 +156,6 @@ jobs:
           path: docker/python-base
           dockerfile: docker/python-base/Dockerfile
           baseimage: moonvision/common-base:latest
-      - push-docker-image
 
   docker-python-base-cuda:
     docker:
@@ -121,7 +168,6 @@ jobs:
           path: docker/python-base
           dockerfile: docker/python-base/Dockerfile
           baseimage: moonvision/common-base:cuda-latest
-      - push-docker-image
 
   build-ffmpeg:
     docker:
@@ -137,7 +183,6 @@ jobs:
           baseimage: ubuntu:18.04
           additional_buildargs: |
             ffmpeg_version: 3.4.6
-      - push-docker-image
 
   build-ffmpeg-cuda:
     docker:
@@ -154,13 +199,16 @@ jobs:
           additional_buildargs: |
             ffmpeg_version: 3.4.6
             with_cuda: true
-      - push-docker-image
 
   build-pytorch:
     docker:
       - image: docker:git
     steps:
       - preparation-steps
+      - add_ssh_keys:
+          fingerprints:
+            - "a1:9d:45:14:ce:81:15:80:d2:07:1c:75:86:7b:3b:24"
+      - run: echo $KNOWN_HOST > ~/.ssh/known_hosts
       - build-docker-image:
           imagename: moonvision/custom-builds
           additionaltag: pytorch
@@ -171,13 +219,17 @@ jobs:
           additional_buildargs: |
             pytorch_tag: v1.1.0
             torchvision_tag: v0.3.0
-      - push-docker-image
+          shell: $REMOTE_SHELL
 
   build-pytorch-cuda:
     docker:
       - image: docker:git
     steps:
       - preparation-steps
+      - add_ssh_keys:
+          fingerprints:
+            - "a1:9d:45:14:ce:81:15:80:d2:07:1c:75:86:7b:3b:24"
+      - run: echo $KNOWN_HOST > ~/.ssh/known_hosts
       - build-docker-image:
           imagename: moonvision/custom-builds
           additionaltag: pytorch-cuda
@@ -188,7 +240,8 @@ jobs:
           additional_buildargs: |
             pytorch_tag: v1.1.0
             torchvision_tag: v0.3.0
-      - push-docker-image
+          shell: $REMOTE_SHELL
+          docker_exe: nvidia-docker
 
   build-cmake:
     docker:
@@ -204,7 +257,6 @@ jobs:
           baseimage: ubuntu:18.04
           additional_buildargs: |
             cmake_tag: v3.14.5
-      - push-docker-image
 
   docker-moonbox-mini:
     docker:
@@ -217,7 +269,6 @@ jobs:
           path: docker/moonbox
           dockerfile: docker/moonbox/Dockerfile
           baseimage: moonvision/python-base:latest
-      - push-docker-image
 
   docker-moonbox-genicam:
     docker:
@@ -232,7 +283,6 @@ jobs:
           baseimage: moonvision/python-base:latest
           additional_buildargs: |
             with_genicam: true
-      - push-docker-image
 
   docker-moonbox-basler:
     docker:
@@ -248,7 +298,6 @@ jobs:
           additional_buildargs: |
             with_genicam: true
             with_pylon: true
-      - push-docker-image
 
   docker-moonbox-cuda:
     docker:
@@ -267,12 +316,11 @@ jobs:
             with_cuda: true
             ffmpeg_from_docker: moonvision/custom-builds:ffmpeg-cuda-3.4.6
             pytorch_from_docker: moonvision/custom-builds:pytorch-cuda-1.1.0_torchvision-0.3.0
-      - push-docker-image
 
 workflows:
   version: 2
   build:
-    jobs:
+    jobs: &full-workflow
       - docker-common-base
       - docker-common-base-cuda
       - docker-python-base:
@@ -315,3 +363,12 @@ workflows:
             - build-ffmpeg-cuda
             - build-pytorch-cuda
 
+  nightly-build:
+    triggers:
+      - schedule:
+          cron: "0 23 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs: *full-workflow
