@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
 . /opt/conda/bin/activate
+
+set -euo pipefail
 
 echo Install Pylon
 

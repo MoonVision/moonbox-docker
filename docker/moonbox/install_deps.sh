@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-set -eo pipefail
 
 . /opt/conda/bin/activate
+
+set -eo pipefail
 
 echo Install common Python dependencies
 
@@ -30,3 +31,17 @@ rm -rf /pytorch-packages
 
 conda install --file /bd_build/conda-list.txt
 pip install --requirement /bd_build/requirements.txt
+
+echo "with_genicam: ${with_genicam}, with_pylon: ${with_pylon}, with_cuda: ${with_cuda}"
+
+if test "$with_genicam" = "true"; then
+    bash /bd_build/install_genicam.sh
+else
+    echo 'Skip GeniCam'
+fi
+
+if test "$with_pylon" = "true"; then
+    bash /bd_build/install_pylon.sh
+else
+    echo 'Skip Pylon'
+fi
