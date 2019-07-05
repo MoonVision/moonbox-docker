@@ -4,8 +4,8 @@ FROM ${baseimage}
 
 COPY . /bd_build
 
-ENV CPATH="/opt/conda/include/"
-ENV PATH="$PATH:/opt/conda/bin/"
+ENV CPATH="/opt/conda/include"
+ENV PATH="/opt/conda/bin:$PATH"
 
 RUN apt-get update -y \
  && apt-get install -y \
