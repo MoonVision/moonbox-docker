@@ -18,3 +18,5 @@ cd pypylon-1.4.0/
 pip install .
 rm -rf /tmp/pypylon-1.4.0.tar.gz /tmp/pypylon-1.4.0/
 apt-get purge --autoremove -y gcc g++
+
+echo '/opt/pylon5/lib64' > /etc/ld.so.conf.d/pylon5-libs.conf

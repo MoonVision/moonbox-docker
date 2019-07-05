@@ -45,3 +45,5 @@ if test "$with_pylon" = "true"; then
 else
     echo 'Skip Pylon'
 fi
+
+ldconfig
