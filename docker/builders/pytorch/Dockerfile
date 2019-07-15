@@ -3,7 +3,7 @@ ARG baseimage='moonvision/python-base:latest'
 ARG cmake_from_docker='moonvision/custom-builds:cmake-3.14.5'
 FROM $cmake_from_docker AS cmake_builder
 
-FROM ${baseimage}
+FROM ${baseimage} AS builder
 
 RUN apt-get update --yes \
  && apt-get install --yes gcc g++ checkinstall
@@ -54,3 +54,6 @@ RUN cd vision \
  && python setup.py bdist_wheel
 RUN find vision -name '*.whl' \
  && cp vision/dist/*.whl /packages
+
+FROM scratch
+COPY --from=builder /packages /packages

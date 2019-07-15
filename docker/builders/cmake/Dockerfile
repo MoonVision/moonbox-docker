@@ -1,6 +1,6 @@
 ARG baseimage='ubuntu:18.04'
 
-FROM ${baseimage}
+FROM ${baseimage} as builder
 
 ARG cmake_tag=v3.14.5
 
@@ -15,3 +15,6 @@ RUN cd ~/temp/cmake/ \
  && checkinstall \
  && mkdir -p /packages \
  && cp *.deb /packages
+
+FROM scratch
+COPY --from=builder /packages /packages

@@ -1,6 +1,6 @@
 ARG baseimage='ubuntu:18.04'
 
-FROM ${baseimage}
+FROM ${baseimage} AS builder
 
 RUN apt-get update -qq \
  && apt-get -y install \
@@ -37,3 +37,6 @@ ARG with_cuda='false'
 RUN WITH_CUDA=$with_cuda FFMPEG_VERSION=$ffmpeg_version bash /bd_build/build_ffmpeg.sh
 
 RUN ls /packages
+
+FROM scratch
+COPY --from=builder /packages /packages
