@@ -207,7 +207,7 @@ jobs:
       - preparation-steps
       - add_ssh_keys:
           fingerprints:
-            - "a1:9d:45:14:ce:81:15:80:d2:07:1c:75:86:7b:3b:24"
+            - "d0:58:f4:95:5a:be:d2:06:c0:29:97:9c:c8:e9:96:8f"
       - run: echo $KNOWN_HOST > ~/.ssh/known_hosts
       - build-docker-image:
           imagename: moonvision/custom-builds
@@ -228,7 +228,7 @@ jobs:
       - preparation-steps
       - add_ssh_keys:
           fingerprints:
-            - "a1:9d:45:14:ce:81:15:80:d2:07:1c:75:86:7b:3b:24"
+            - "d0:58:f4:95:5a:be:d2:06:c0:29:97:9c:c8:e9:96:8f"
       - run: echo $KNOWN_HOST > ~/.ssh/known_hosts
       - build-docker-image:
           imagename: moonvision/custom-builds
