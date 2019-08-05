@@ -241,7 +241,6 @@ jobs:
             pytorch_tag: v1.1.0
             torchvision_tag: v0.3.0
           shell: $REMOTE_SHELL
-          docker_exe: nvidia-docker
 
   build-cmake:
     docker:
