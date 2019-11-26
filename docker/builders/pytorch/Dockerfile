@@ -1,6 +1,6 @@
 ARG baseimage='moonvision/python-base:latest'
 
-ARG cmake_from_docker='moonvision/custom-builds:cmake-3.14.5'
+ARG cmake_from_docker='moonvision/custom-builds:cmake-3.15.5'
 FROM $cmake_from_docker AS cmake_builder
 
 FROM ${baseimage} AS builder
@@ -13,7 +13,7 @@ RUN dpkg -i /cmake-packages/*.deb \
  && rm -rf /cmake-packages \
  && mkdir -p /packages
 
-ARG fbgemm_tag='77868418c7963572167690ef069b06cbfe67de1f'
+ARG fbgemm_tag='6aaaa4754fe2a7467c5f0584648ba47482caad7d'
 RUN git clone https://github.com/pytorch/FBGEMM \
  && cd FBGEMM \
  && git checkout $fbgemm_tag \
@@ -28,7 +28,7 @@ RUN cd FBGEMM \
 RUN find . -name '*.deb' \
  && cp ./FBGEMM/build/*.deb /packages
 
-ARG pytorch_tag='v1.1.0'
+ARG pytorch_tag='v1.3.1'
 RUN git clone --branch $pytorch_tag --recursive https://github.com/pytorch/pytorch \
  && cd pytorch \
  && git checkout $pytorch_tag \
@@ -42,7 +42,7 @@ RUN cd pytorch \
 RUN find pytorch -name '*.whl' \
  && cp pytorch/dist/*.whl /packages
 
-ARG torchvision_tag='v0.3.0'
+ARG torchvision_tag='v0.4.2'
 RUN git clone --branch $torchvision_tag --recursive https://github.com/pytorch/vision \
  && cd vision \
  && git checkout $torchvision_tag \

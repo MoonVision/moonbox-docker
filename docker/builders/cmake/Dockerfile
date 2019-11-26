@@ -2,7 +2,7 @@ ARG baseimage='ubuntu:18.04'
 
 FROM ${baseimage} as builder
 
-ARG cmake_tag=v3.14.5
+ARG cmake_tag=v3.15.5
 
 RUN apt-get update -y \
  && apt-get install -y git gcc g++ checkinstall build-essential
