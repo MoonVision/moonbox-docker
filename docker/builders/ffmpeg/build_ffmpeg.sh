@@ -8,11 +8,17 @@ tar xf ffmpeg-${FFMPEG_VERSION}.tar.xz
 
 cd /tmp/ffmpeg_sources/ffmpeg-${FFMPEG_VERSION}
 
+mkdir -p /packages
+
 #sed -ie 's/libnpp/libnppc/g' configure
-#if [[ "$WITH_CUDA" == 'true' ]]; then
-#  apt-get update
-#  apt-get install --yes cuda-npp-dev-10-1 cuda-cudart-dev-10-1 nvidia-cuda-dev
-#fi
+if [[ "$WITH_CUDA" == 'true' ]]; then
+    git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
+    cd nv-codec-headers
+    make
+    make install
+    checkinstall
+    cp *.deb /packages
+fi
 
 tmp=${WITH_CUDA/false/}
 ./configure \
@@ -37,6 +43,5 @@ cat ffbuild/config.log
 cd /tmp/ffmpeg_sources/ffmpeg-${FFMPEG_VERSION}
 make
 checkinstall
-mkdir -p /packages
 cp *.deb /packages
 dpkg -c /packages/*.deb
