@@ -15,8 +15,8 @@ if [[ "$WITH_CUDA" == 'true' ]]; then
     git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
     cd nv-codec-headers
     make
-    make install
     checkinstall
+    dpkg -i *.deb
     cp *.deb /packages
 fi
 
