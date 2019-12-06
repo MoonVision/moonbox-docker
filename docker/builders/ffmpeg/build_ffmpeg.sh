@@ -12,10 +12,11 @@ mkdir -p /packages
 
 #sed -ie 's/libnpp/libnppc/g' configure
 if [[ "$WITH_CUDA" == 'true' ]]; then
-    git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
-    cd nv-codec-headers
+    wget https://github.com/FFmpeg/nv-codec-headers/releases/download/n9.1.23.1/nv-codec-headers-9.1.23.1.tar.gz
+    tar xf nv-codec-headers-9.1.23.1.tar.gz
+    cd nv-codec-headers-9.1.23.1
     make
-    checkinstall
+    checkinstall --pkgversion=9.1.23.1
     dpkg -i *.deb
     cp *.deb /packages
 fi
