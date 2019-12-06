@@ -46,4 +46,5 @@ cd /tmp/ffmpeg_sources/ffmpeg-${FFMPEG_VERSION}
 make
 checkinstall
 cp *.deb /packages
-dpkg -c /packages/*.deb
+
+find . -name '*.deb' -exec 'dpkg -c {}' ';'
