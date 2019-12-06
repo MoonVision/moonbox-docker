@@ -47,4 +47,4 @@ make
 checkinstall
 cp *.deb /packages
 
-find . -name '*.deb' -exec 'dpkg -c {}' ';'
+find /packages -name '*.deb' -exec 'dpkg -c {}' ';'
