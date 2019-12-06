@@ -73,8 +73,8 @@ docker build -t moonvision/moonbox:mini-latest -f docker/moonbox/Dockerfile dock
 | Build arg | Default | Description |
 |-|-|-|
 | `baseimage` | `moonvision/python-base` | Set the baseimage from which moonbox is build. |
-| `ffmpeg_from_docker` | `moonvision/custom-builds:ffmpeg-3.4.6` | The docker image from which FFmpeg will be installed. |
-| `pytorch_from_docker` | `moonvision/custom-builds:pytorch-1.1.0_torchvision-0.3.0` | The docker image from which PyTorch and Torchvision will be installed. |
+| `ffmpeg_from_docker` | `moonvision/custom-builds:ffmpeg-4.2.1` | The docker image from which FFmpeg will be installed. |
+| `pytorch_from_docker` | `moonvision/custom-builds:pytorch-1.3.1_torchvision-0.4.2` | The docker image from which PyTorch and Torchvision will be installed. |
 | `with_genicam` | `false` | Whether to install GeniCam harvesters. |
 | `with_pylon` | `false` | Whether to install Basler Pylon. |
 | `with_cuda` | `false` | Whether to install CUDA specific packages, (nothing at the moment). |
@@ -88,8 +88,8 @@ docker build -t moonvision/moonbox:genicam-latest -f docker/moonbox/Dockerfile -
 | Build arg | Default | Description |
 |-|-|-|
 | `baseimage` | `moonvision/python-base` | Set the baseimage from which moonbox is build. |
-| `ffmpeg_from_docker` | `moonvision/custom-builds:ffmpeg-3.4.6` | The docker image from which FFmpeg will be installed. |
-| `pytorch_from_docker` | `moonvision/custom-builds:pytorch-1.1.0_torchvision-0.3.0` | The docker image from which PyTorch and Torchvision will be installed. |
+| `ffmpeg_from_docker` | `moonvision/custom-builds:ffmpeg-4.2.1` | The docker image from which FFmpeg will be installed. |
+| `pytorch_from_docker` | `moonvision/custom-builds:pytorch-1.3.1_torchvision-0.4.2` | The docker image from which PyTorch and Torchvision will be installed. |
 | `with_genicam` | `true` | Whether to install GeniCam harvesters. |
 | `with_pylon` | `false` | Whether to install Basler Pylon. |
 | `with_cuda` | `false` | Whether to install CUDA specific packages, (nothing at the moment). |
@@ -103,8 +103,8 @@ docker build -t moonvision/moonbox:basler-latest -f docker/moonbox/Dockerfile --
 | Build arg | Default | Description |
 |-|-|-|
 | `baseimage` | `moonvision/python-base` | Set the baseimage from which moonbox is build. |
-| `ffmpeg_from_docker` | `moonvision/custom-builds:ffmpeg-3.4.6` | The docker image from which FFmpeg will be installed. |
-| `pytorch_from_docker` | `moonvision/custom-builds:pytorch-1.1.0_torchvision-0.3.0` | The docker image from which PyTorch and Torchvision will be installed. |
+| `ffmpeg_from_docker` | `moonvision/custom-builds:ffmpeg-4.2.1` | The docker image from which FFmpeg will be installed. |
+| `pytorch_from_docker` | `moonvision/custom-builds:pytorch-1.3.1_torchvision-0.4.2` | The docker image from which PyTorch and Torchvision will be installed. |
 | `with_genicam` | `true` | Whether to install GeniCam harvesters. |
 | `with_pylon` | `true` | Whether to install Basler Pylon. |
 | `with_cuda` | `false` | Whether to install CUDA specific packages, (nothing at the moment). |
@@ -118,8 +118,8 @@ docker build -t moonvision/moonbox:cuda-latest -f docker/moonbox/Dockerfile --bu
 | Build arg | Default | Description |
 |-|-|-|
 | `baseimage` | `moonvision/python-base:cuda-latest` | Set the baseimage from which moonbox is build. |
-| `ffmpeg_from_docker` | `moonvision/custom-builds:ffmpeg-cuda-3.4.6` | The docker image from which FFmpeg will be installed. |
-| `pytorch_from_docker` | `moonvision/custom-builds:pytorch-cuda-1.1.0_torchvision-0.3.0` | The docker image from which PyTorch and Torchvision will be installed. |
+| `ffmpeg_from_docker` | `moonvision/custom-builds:ffmpeg-cuda-4.2.1` | The docker image from which FFmpeg will be installed. |
+| `pytorch_from_docker` | `moonvision/custom-builds:pytorch-1.3.1_torchvision-0.4.2` | The docker image from which PyTorch and Torchvision will be installed. |
 | `with_genicam` | `true` | Whether to install GeniCam harvesters. |
 | `with_pylon` | `true` | Whether to install Basler Pylon. |
 | `with_cuda` | `true` | Whether to install CUDA specific packages, (nothing at the moment). |
@@ -137,7 +137,7 @@ docker build -t moonvision/custom-builds:cmake-latest -f docker/builders/cmake/D
 | Build arg | Default | Description |
 |-|-|-|
 | `baseimage` | `ubuntu:18.04` | Set the image on which CMake will be build. |
-| `cmake_tag` | `v3.14.5` | The CMake version tag to build. |
+| `cmake_tag` | `v3.15.5` | The CMake version tag to build. |
 
 #### FFmpeg
 
@@ -148,7 +148,7 @@ docker build -t moonvision/custom-builds:ffmpeg-latest -f docker/builders/ffmpeg
 | Build arg | Default | Description |
 |-|-|-|
 | `baseimage` | `ubuntu:18.04` | Set the image on which FFmpeg will be build. |
-| `ffmpeg_version` | `3.4.6` | The FFmpeg release version to build. |
+| `ffmpeg_version` | `4.2.1` | The FFmpeg release version to build. |
 | `with_cuda` | `false` | Whether to build FFmpeg with Nvidia hardware acceleration.  |
 
 #### FFmpeg with CUDA
@@ -160,7 +160,7 @@ docker build -t moonvision/custom-builds:ffmpeg-cuda-latest -f docker/builders/f
 | Build arg | Default | Description |
 |-|-|-|
 | `baseimage` | `moonvision/python-base:cuda-latest` | Set the image on which FFmpeg will be build. |
-| `ffmpeg_version` | `3.4.6` |  The FFmpeg release version to build. |
+| `ffmpeg_version` | `4.2.1` |  The FFmpeg release version to build. |
 | `with_cuda` | `true` | Whether to build FFmpeg with Nvidia hardware acceleration. |
 
 #### PyTorch
@@ -172,10 +172,10 @@ docker build -t moonvision/custom-builds:pytorch-latest -f docker/builders/pytor
 | Build arg | Default | Description |
 |-|-|-|
 | `baseimage` | `moonvision/python-base:latest` | Set the image on which PyTorch will be build. |
-| `cmake_from_docker` | `moonvision/custom-builds:cmake-3.14.5` | Image from which CMake will be installed. |
-| `fbgemm_tag` | `77868418c7963572167690ef069b06cbfe67de1f` | FBGEMM git commit to build. |
-| `pytorch_tag` | `v1.1.0` | PyTorch version tag to build. |
-| `torchvision_tag` | `v0.3.0` | Torchvision version tag to build. |
+| `cmake_from_docker` | `moonvision/custom-builds:cmake-3.15.5` | Image from which CMake will be installed. |
+| `fbgemm_tag` | `6aaaa4754fe2a7467c5f0584648ba47482caad7d` | FBGEMM git commit to build. |
+| `pytorch_tag` | `v1.3.1` | PyTorch version tag to build. |
+| `torchvision_tag` | `v0.4.2` | Torchvision version tag to build. |
 
 #### PyTorch with CUDA
 
@@ -186,7 +186,7 @@ docker build -t moonvision/custom-builds:pytorch-latest -f docker/builders/pytor
 | Build arg | Default | Description |
 |-|-|-|
 | `baseimage` | `moonvision/python-base:cuda-latest` | Set the image on PyTorch FFmpeg will be build. |
-| `cmake_from_docker` | `moonvision/custom-builds:cmake-3.14.5` | Image from which CMake will be installed. |
-| `fbgemm_tag` | `77868418c7963572167690ef069b06cbfe67de1f` | FBGEMM git commit to build. |
-| `pytorch_tag` | `v1.1.0` | PyTorch version tag to build. |
-| `torchvision_tag` | `v0.3.0` | Torchvision version tag to build. |
+| `cmake_from_docker` | `moonvision/custom-builds:cmake-3.15.5` | Image from which CMake will be installed. |
+| `fbgemm_tag` | `6aaaa4754fe2a7467c5f0584648ba47482caad7d` | FBGEMM git commit to build. |
+| `pytorch_tag` | `v1.3.1` | PyTorch version tag to build. |
+| `torchvision_tag` | `v0.4.2` | Torchvision version tag to build. |
