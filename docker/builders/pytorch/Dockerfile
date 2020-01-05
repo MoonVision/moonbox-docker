@@ -44,14 +44,15 @@ RUN find pytorch -name '*.whl' \
 
 ARG torchvision_tag='v0.4.2'
 ARG torchvision_cuda='0'
-RUN git clone --branch $torchvision_tag --recursive https://github.com/pytorch/vision \
+RUN git clone --recursive https://github.com/pytorch/vision \
  && cd vision \
  && git checkout $torchvision_tag \
  && git submodule sync \
  && git submodule update --init --recursive
 RUN cd vision \
  && . /opt/conda/bin/activate \
- && export FORCE_CUDA=${torchvision_cuda} \
+ && export TORCH_CUDA_ARCH_LIST=6.1 \
+ && export FORCE_CUDA=$torchvision_cuda \
  && python setup.py install \
  && python setup.py bdist_wheel
 RUN find vision -name '*.whl' \
