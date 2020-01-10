@@ -219,7 +219,6 @@ jobs:
           additional_buildargs: |
             pytorch_tag: v1.3.1
             torchvision_tag: v0.4.2
-          shell: $REMOTE_SHELL
 
   build-pytorch-cuda:
     docker:
@@ -241,7 +240,6 @@ jobs:
             pytorch_tag: v1.3.1
             torchvision_tag: v0.4.2
             torchvision_cuda: 1
-          shell: $REMOTE_SHELL
 
   build-cmake:
     docker:
