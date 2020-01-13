@@ -145,6 +145,7 @@ jobs:
           additional_buildargs: |
             disable_ssh: true
             disable_cron: true
+          shell: $REMOTE_SHELL
 
   docker-python-base:
     docker:
@@ -168,6 +169,7 @@ jobs:
           path: docker/python-base
           dockerfile: docker/python-base/Dockerfile
           baseimage: moonvision/common-base:cuda-latest
+          shell: $REMOTE_SHELL
 
   build-ffmpeg:
     docker:
@@ -199,6 +201,7 @@ jobs:
           additional_buildargs: |
             ffmpeg_version: 4.2.1
             with_cuda: true
+          shell: $REMOTE_SHELL
 
   build-pytorch:
     docker:
@@ -240,6 +243,7 @@ jobs:
             pytorch_tag: v1.3.1
             torchvision_tag: v0.4.2
             torchvision_cuda: 1
+          shell: $REMOTE_SHELL
 
   build-cmake:
     docker:
@@ -314,6 +318,7 @@ jobs:
             with_cuda: true
             ffmpeg_from_docker: moonvision/custom-builds:ffmpeg-cuda-4.2.1
             pytorch_from_docker: moonvision/custom-builds:pytorch-cuda-1.3.1_torchvision-0.4.2
+          shell: $REMOTE_SHELL
 
 workflows:
   version: 2
