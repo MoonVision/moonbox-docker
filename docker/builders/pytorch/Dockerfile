@@ -37,6 +37,7 @@ RUN git clone --branch $pytorch_tag --recursive https://github.com/pytorch/pytor
 RUN cd pytorch \
  && . /opt/conda/bin/activate \
  && export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"} \
+ && export TORCH_CUDA_ARCH_LIST="3.7;6.1;7.5" \
  && python setup.py install \
  && python setup.py bdist_wheel
 RUN find pytorch -name '*.whl' \
@@ -51,7 +52,7 @@ RUN git clone --recursive https://github.com/pytorch/vision \
  && git submodule update --init --recursive
 RUN cd vision \
  && . /opt/conda/bin/activate \
- && export TORCH_CUDA_ARCH_LIST=6.1 \
+ && export TORCH_CUDA_ARCH_LIST="3.7;6.1;7.5" \
  && export FORCE_CUDA=$torchvision_cuda \
  && python setup.py install \
  && python setup.py bdist_wheel
