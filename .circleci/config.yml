@@ -4,6 +4,9 @@ commands:
   preparation-steps:
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "d0:58:f4:95:5a:be:d2:06:c0:29:97:9c:c8:e9:96:8f"
       - attach_workspace:
           at: /home/circleci
       - setup_remote_docker
@@ -208,9 +211,6 @@ jobs:
       - image: docker:git
     steps:
       - preparation-steps
-      - add_ssh_keys:
-          fingerprints:
-            - "d0:58:f4:95:5a:be:d2:06:c0:29:97:9c:c8:e9:96:8f"
       - run: echo $KNOWN_HOST > ~/.ssh/known_hosts
       - build-docker-image:
           imagename: moonvision/custom-builds
@@ -228,9 +228,6 @@ jobs:
       - image: docker:git
     steps:
       - preparation-steps
-      - add_ssh_keys:
-          fingerprints:
-            - "d0:58:f4:95:5a:be:d2:06:c0:29:97:9c:c8:e9:96:8f"
       - run: echo $KNOWN_HOST > ~/.ssh/known_hosts
       - build-docker-image:
           imagename: moonvision/custom-builds
