@@ -28,7 +28,7 @@ RUN cd FBGEMM \
 RUN find . -name '*.deb' \
  && cp ./FBGEMM/build/*.deb /packages
 
-ARG pytorch_tag='v1.3.1'
+ARG pytorch_tag='v1.4.0'
 RUN git clone --branch $pytorch_tag --recursive https://github.com/pytorch/pytorch \
  && cd pytorch \
  && git checkout $pytorch_tag \
@@ -43,7 +43,7 @@ RUN cd pytorch \
 RUN find pytorch -name '*.whl' \
  && cp pytorch/dist/*.whl /packages
 
-ARG torchvision_tag='v0.4.2'
+ARG torchvision_tag='v0.5.0'
 ARG torchvision_cuda='0'
 RUN git clone --recursive https://github.com/pytorch/vision \
  && cd vision \
