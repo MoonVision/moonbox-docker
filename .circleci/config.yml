@@ -345,6 +345,7 @@ workflows:
             - docker-common-base-cuda
       - build-ffmpeg
       - build-cmake
+      - build-proxychains
       - build-ffmpeg-cuda:
           requires:
             - docker-python-base-cuda
