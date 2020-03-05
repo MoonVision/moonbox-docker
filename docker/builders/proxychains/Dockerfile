@@ -3,7 +3,7 @@ ARG baseimage='ubuntu:18.04'
 FROM $baseimage AS build_proxychains
 
 # Install Build Dependencies
-RUN apt install -y wget checkinstall build-essential automake autoconf libtool pkg-config
+RUN apt-get update && apt-get install -y wget checkinstall build-essential automake autoconf libtool pkg-config
 
 ARG proxychains_version=4.14
 
