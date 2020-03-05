@@ -15,8 +15,8 @@ conda install --yes -c conda-forge numpy=1.16.4 \
                                     blas
 conda clean --all --yes
 pip install setuptools \
-    opencv-python-headless==3.4.5.20 \
-    opencv-contrib-python-headless==3.4.5.20
+    opencv-python-headless==4.2.0.32 \
+    opencv-contrib-python-headless==4.2.0.32
 
 echo '# Conda (base) library folder' >> /etc/ld.so.conf.d/conda-libs.conf
 echo '/opt/conda/lib' >> /etc/ld.so.conf.d/conda-libs.conf
