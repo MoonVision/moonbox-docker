@@ -207,6 +207,21 @@ jobs:
             with_cuda: true
           shell: $REMOTE_SHELL
 
+  build-proxychains:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/custom-builds
+          additionaltag: proxychains
+          tagversion: 4.14
+          path: docker/builders/proxychains
+          dockerfile: docker/builders/proxychains/Dockerfile
+          baseimage: ubuntu:18.04
+          additional_buildargs: |
+            proxychains_version: 4.14
+
   build-pytorch:
     docker:
       - image: docker:git
