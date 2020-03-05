@@ -215,7 +215,7 @@ jobs:
       - build-docker-image:
           imagename: moonvision/custom-builds
           additionaltag: proxychains
-          tagversion: 4.14
+          tagversion: "4.14"
           path: docker/builders/proxychains
           dockerfile: docker/builders/proxychains/Dockerfile
           baseimage: ubuntu:18.04
