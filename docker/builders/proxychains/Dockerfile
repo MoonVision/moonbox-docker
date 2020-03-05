@@ -1,6 +1,6 @@
 ARG baseimage='ubuntu:18.04'
 
-FROM $baseimage AS build_proxychains
+FROM $baseimage AS builder
 
 # Install Build Dependencies
 RUN apt-get update && apt-get install -y wget checkinstall build-essential automake autoconf libtool pkg-config
@@ -24,3 +24,6 @@ RUN cd ~/temp/proxychains \
 # Copy deb to output folder
 RUN mkdir /packages \
  && mv ~/temp/proxychains/*deb /packages/
+
+FROM scratch
+COPY --from=builder /packages /packages
