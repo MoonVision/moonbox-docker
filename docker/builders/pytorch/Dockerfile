@@ -13,7 +13,7 @@ RUN dpkg -i /cmake-packages/*.deb \
  && rm -rf /cmake-packages \
  && mkdir -p /packages
 
-ARG fbgemm_tag='6aaaa4754fe2a7467c5f0584648ba47482caad7d'
+ARG fbgemm_tag='60e318d48dd72a22a1f63fa625387d4b7363bd23'
 RUN git clone https://github.com/pytorch/FBGEMM \
  && cd FBGEMM \
  && git checkout $fbgemm_tag \
