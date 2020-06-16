@@ -282,6 +282,9 @@ jobs:
           path: docker/moonbox
           dockerfile: docker/moonbox/Dockerfile
           baseimage: moonvision/python-base:latest
+          additional_buildargs: |
+            ffmpeg_from_docker: moonvision/custom-builds:ffmpeg-4.2.1
+            pytorch_from_docker: moonvision/custom-builds:pytorch-1.5.0_torchvision-0.6.0
 
   docker-moonbox-genicam:
     docker:
@@ -296,6 +299,8 @@ jobs:
           baseimage: moonvision/python-base:latest
           additional_buildargs: |
             with_genicam: true
+            ffmpeg_from_docker: moonvision/custom-builds:ffmpeg-4.2.1
+            pytorch_from_docker: moonvision/custom-builds:pytorch-1.5.0_torchvision-0.6.0
 
   docker-moonbox-basler:
     docker:
@@ -311,6 +316,8 @@ jobs:
           additional_buildargs: |
             with_genicam: true
             with_pylon: true
+            ffmpeg_from_docker: moonvision/custom-builds:ffmpeg-4.2.1
+            pytorch_from_docker: moonvision/custom-builds:pytorch-1.5.0_torchvision-0.6.0
 
   docker-moonbox-cuda:
     docker:
