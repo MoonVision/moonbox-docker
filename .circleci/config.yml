@@ -222,6 +222,21 @@ jobs:
           additional_buildargs: |
             proxychains_version: 4.14
 
+  build-opensc:
+    docker:
+      - image: docker:git
+    steps:
+      - preparation-steps
+      - build-docker-image:
+          imagename: moonvision/custom-builds
+          additionaltag: opensc
+          tagversion: "0.20.0"
+          path: docker/builders/opensc
+          dockerfile: docker/builders/opensc/Dockerfile
+          baseimage: ubuntu:18.04
+          additional_buildargs: |
+            opensc_version: 0.20.0
+
   build-pytorch:
     docker:
       - image: docker:git
