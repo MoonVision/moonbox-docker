@@ -10,7 +10,7 @@ conda install --yes python=3.6.8 \
                     setuptools cffi typing \
                     swig
 conda install --yes -c pytorch protobuf
-conda install --yes -c conda-forge numpy=1.16.4 \
+conda install --yes -c conda-forge numpy=1.19.4 \
                                     pybind11 \
                                     blas
 conda clean --all --yes
