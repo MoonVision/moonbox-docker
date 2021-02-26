@@ -2,7 +2,7 @@
 set -euo pipefail
 
 conda clean -tipsy
-conda install --yes python=3.6.8 \
+conda install --yes python=3.6 \
                     mkl=2019.4 \
                     mkl-include=2019.4 \
                     six==1.11.0 \
