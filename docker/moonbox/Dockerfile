@@ -15,4 +15,5 @@ COPY --from=ffmpeg_builder /packages /ffmpeg-packages
 COPY --from=pytorch_builder /packages /pytorch-packages
 COPY . /bd_build
 
+ARG DEBIAN_FRONTEND='noninteractive'
 RUN with_genicam=$with_genicam with_pylon=$with_pylon with_cuda=$with_cuda bash /bd_build/install_deps.sh

@@ -7,6 +7,7 @@ COPY . /bd_build
 ENV CPATH="/opt/conda/include"
 ENV PATH="/opt/conda/bin:$PATH"
 
+ARG DEBIAN_FRONTEND='noninteractive'
 RUN apt-get update -y \
  && apt-get install -y \
     libsm6 \

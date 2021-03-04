@@ -1,7 +1,8 @@
-ARG baseimage='ubuntu:18.04'
+ARG baseimage='ubuntu:20.04'
 
 FROM ${baseimage} AS builder
 
+ARG DEBIAN_FRONTEND='noninteractive'
 RUN apt-get update -qq \
  && apt-get -y install \
     autoconf \

@@ -1,8 +1,9 @@
-ARG baseimage='ubuntu:18.04'
+ARG baseimage='ubuntu:20.04'
 
 FROM $baseimage AS builder
 
 # Install Build Dependencies
+ARG DEBIAN_FRONTEND='noninteractive'
 RUN apt-get update && apt-get install -y wget checkinstall build-essential automake autoconf libtool pkg-config
 
 ARG proxychains_version=4.14

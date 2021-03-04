@@ -130,7 +130,7 @@ jobs:
           imagename: moonvision/common-base
           path: docker/common-base/image
           dockerfile: docker/common-base/image/Dockerfile
-          baseimage: ubuntu:18.04
+          baseimage: ubuntu:20.04
           additional_buildargs: |
             disable_ssh: true
             disable_cron: true
@@ -186,7 +186,7 @@ jobs:
           tagversion: 4.2.1
           path: docker/builders/ffmpeg
           dockerfile: docker/builders/ffmpeg/Dockerfile
-          baseimage: ubuntu:18.04
+          baseimage: ubuntu:20.04
           additional_buildargs: |
             ffmpeg_version: 4.2.1
 
@@ -218,7 +218,7 @@ jobs:
           tagversion: "4.14"
           path: docker/builders/proxychains
           dockerfile: docker/builders/proxychains/Dockerfile
-          baseimage: ubuntu:18.04
+          baseimage: ubuntu:20.04
           additional_buildargs: |
             proxychains_version: 4.14
 
@@ -233,7 +233,7 @@ jobs:
           tagversion: "0.20.0"
           path: docker/builders/opensc
           dockerfile: docker/builders/opensc/Dockerfile
-          baseimage: ubuntu:18.04
+          baseimage: ubuntu:20.04
           additional_buildargs: |
             opensc_version: 0.20.0
 
@@ -282,7 +282,7 @@ jobs:
           tagversion: 3.15.5
           path: docker/builders/cmake
           dockerfile: docker/builders/cmake/Dockerfile
-          baseimage: ubuntu:18.04
+          baseimage: ubuntu:20.04
           additional_buildargs: |
             cmake_tag: v3.15.5
 

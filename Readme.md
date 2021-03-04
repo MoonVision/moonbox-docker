@@ -22,7 +22,7 @@ docker build -t moonvision/common-base:latest -f docker/common-base/image/Docker
 
 | Build arg | Default | Description |
 |-|-|-|
-| `baseimage` | [`ubuntu:18.04`](https://hub.docker.com/u/ubuntu) | Build images based on different Ubuntu versions. |
+| `baseimage` | [`ubuntu:20.04`](https://hub.docker.com/u/ubuntu) | Build images based on different Ubuntu versions. |
 
 #### Common Base with CUDA
 
@@ -136,7 +136,7 @@ docker build -t moonvision/custom-builds:cmake-latest -f docker/builders/cmake/D
 
 | Build arg | Default | Description |
 |-|-|-|
-| `baseimage` | `ubuntu:18.04` | Set the image on which CMake will be build. |
+| `baseimage` | `ubuntu:20.04` | Set the image on which CMake will be build. |
 | `cmake_tag` | `v3.15.5` | The CMake version tag to build. |
 
 #### FFmpeg
@@ -147,7 +147,7 @@ docker build -t moonvision/custom-builds:ffmpeg-latest -f docker/builders/ffmpeg
 
 | Build arg | Default | Description |
 |-|-|-|
-| `baseimage` | `ubuntu:18.04` | Set the image on which FFmpeg will be build. |
+| `baseimage` | `ubuntu:20.04` | Set the image on which FFmpeg will be build. |
 | `ffmpeg_version` | `4.2.1` | The FFmpeg release version to build. |
 | `with_cuda` | `false` | Whether to build FFmpeg with Nvidia hardware acceleration.  |
 

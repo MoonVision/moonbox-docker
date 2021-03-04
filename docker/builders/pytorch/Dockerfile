@@ -5,6 +5,7 @@ FROM $cmake_from_docker AS cmake_builder
 
 FROM ${baseimage} AS builder
 
+ARG DEBIAN_FRONTEND='noninteractive'
 RUN apt-get update --yes \
  && apt-get install --yes gcc g++ checkinstall
 

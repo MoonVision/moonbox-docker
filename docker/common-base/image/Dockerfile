@@ -1,9 +1,10 @@
-ARG baseimage='ubuntu:18.04'
+ARG baseimage='ubuntu:20.04'
 
 FROM ${baseimage}
 
 COPY . /bd_build
 
+ARG DEBIAN_FRONTEND='noninteractive'
 ARG disable_syslog='0'
 ARG disable_ssh='0'
 ARG disable_cron='0'
