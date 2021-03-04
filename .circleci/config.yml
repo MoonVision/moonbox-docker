@@ -356,6 +356,8 @@ jobs:
 workflows:
   version: 2
   build:
+    when:
+      equal: [ master, << pipeline.git.branch >> ]
     jobs: &full-workflow
       - docker-common-base
       - docker-common-base-cuda
