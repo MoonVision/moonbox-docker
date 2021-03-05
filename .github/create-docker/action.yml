@@ -1,0 +1,47 @@
+name: create-docker
+description: build and push a docker image
+inputs:
+  imagename:
+    description: docker image to push
+    required: true
+  additionaltag:
+    description: prefix tag before `tagversion` or 'latest'
+    required: false
+  tagversion:
+    description: last part of tag, defaults to first 8 chars of github.sha
+    required: true
+    default: ''
+  path:
+    description: path to build context
+    required: true
+  dockerfile:
+    description: path to Dockerfile
+    required: true
+  baseimage:
+    description: base image build argument
+    required: true
+  additional_buildargs:
+    description: new-line separated build-args
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        version=${{ inputs.tagversion }}
+        version=${version:-$(git rev-parse --short=8 HEAD)}
+        echo "::set-output name=version::"$version
+      shell: bash
+      id: tag
+    - run: echo imagename ${{ inputs.imagename }}
+      shell: bash
+    - run: echo additionaltag ${{ inputs.additionaltag }}
+      shell: bash
+    - run: echo tagversion ${{ steps.tag.outputs.version }}
+      shell: bash
+    - run: echo path ${{ inputs.path }}
+      shell: bash
+    - run: echo dockerfile ${{ inputs.dockerfile }}
+      shell: bash
+    - run: echo basimage ${{ inputs.baseimage }}
+      shell: bash
+    - run: echo additional_buildargs ${{ inputs.additional_buildargs }}
+      shell: bash
