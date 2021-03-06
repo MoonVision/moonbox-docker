@@ -45,18 +45,15 @@ runs:
       shell: bash
     - run: echo additional_buildargs ${{ inputs.additional_buildargs }}
       shell: bash
-
-    - name: global env test
-      run: |
-        echo DUMMY ${{ env.DUMMY }}
-        echo DUMMY "$DUMMY"
-      shell: bash
-    - name: docker login test
-      run: |
-        echo ${{ env.DOCKER_TOKEN }}
-        echo ${{ env.DOCKER_USER }}
-      shell: bash
-
     - name: docker login
+      # stores credentials unencrypted as of writing, `pass` encryption
+      # coming soon to ubuntu-latest runner
+      # https://github.com/actions/virtual-environments/issues/2302
       run: echo ${{ env.DOCKER_TOKEN }} | docker login -u ${{ env.DOCKER_USER }} --password-stdin
+      shell: bash
+
+    - name: docker logout
+      # unfortunately post: nor runs.steps.if is supported in composite action
+      # https://github.community/t/no-post-run-capability-for-composite-actions/139046/4
+      run: docker logout
       shell: bash
