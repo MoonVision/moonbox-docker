@@ -82,16 +82,19 @@ runs:
 
     - name: docker build
       run: |
-        docker build --pull -f {{ input.dockerfile }} \
+        set -x
+        docker build --pull -f ${{ inputs.dockerfile }} \
           ${{ steps.tags.outputs.all }} \
           ${{ steps.args.outputs.build }} \
           ${{ inputs.path }}
+      shell: bash
       
     - name: docker push
       run: |
         docker push ${{ inputs.imagename }}:${{ steps.tags.outputs.ver_tag }}
         docker push ${{ inputs.imagename }}:${{ steps.tags.outputs.latest_tag }}
-        
+      shell: bash
+      
     - name: docker logout
       # unfortunately neither post: nor runs.steps.if is supported in composite action
       # https://github.community/t/no-post-run-capability-for-composite-actions/139046/4
