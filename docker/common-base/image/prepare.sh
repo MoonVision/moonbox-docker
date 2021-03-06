@@ -41,10 +41,17 @@ $minimal_apt_get_install software-properties-common
 apt-get dist-upgrade -y --no-install-recommends -o Dpkg::Options::="--force-confold"
 
 ## Fix locale.
-#$minimal_apt_get_install language-pack-en
-$minimal_apt_get_install locales
-echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen
-locale-gen en_US.UTF-8
+case $(lsb_release -is) in
+  Ubuntu)
+    $minimal_apt_get_install language-pack-en
+    ;;
+  Debian)
+    $minimal_apt_get_install locales locales-all
+    ;;
+  *)
+    ;;
+esac
+locale-gen en_US
 update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8
 echo -n en_US.UTF-8 > /etc/container_environment/LANG
 echo -n en_US.UTF-8 > /etc/container_environment/LC_CTYPE

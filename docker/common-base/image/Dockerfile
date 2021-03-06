@@ -18,8 +18,9 @@ RUN export DISABLE_SYSLOG=$disable_syslog \
  && /bd_build/utilities.sh \
  && /bd_build/cleanup.sh
 
-ENV DEBIAN_FRONTEND="teletype"
-ENV LANG="en_US.UTF-8"
-ENV LC_CTYPE="en_US.UTF-8"
+ENV DEBIAN_FRONTEND="teletype" \
+    LANG="en_US.UTF-8" \
+    LANGUAGE="en_US:en" \
+    LC_ALL="en_US.UTF-8"
 
 CMD ["/sbin/my_init"]
