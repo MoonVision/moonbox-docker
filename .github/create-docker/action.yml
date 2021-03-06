@@ -22,28 +22,66 @@ inputs:
     required: true
   additional_buildargs:
     description: new-line separated build-args
+    required: false
+  imagesuffix:
+    description: suffix to append to pushed images
+    required: false
+    default: '-dev'
 runs:
   using: "composite"
   steps:
-    - run: |
+    - name: determine version
+      run: |
         version=${{ inputs.tagversion }}
         version=${version:-$(git rev-parse --short=8 HEAD)}
         echo "::set-output name=version::"$version
       shell: bash
       id: tag
-    - run: echo imagename ${{ inputs.imagename }}
+    - name: concat tags
+      run: |
+        append() {
+        # latest or hash
+        ver=$1
+        # additional prefix
+        tag=${{ inputs.additionaltag }}
+        [ $tag ] && echo "$tag"-"$ver" || echo "$ver"
+        }
+
+        ver_tag=$(append ${{ steps.tag.outputs.version }})
+        latest_tag=$(append "latest")
+
+        img=${{ inputs.imagename }}${{ inputs.imagesuffix}}
+        tags="-t $img:$ver_tag -t $img:$latest_tag"
+        echo "::set-output name=all::$tags"
       shell: bash
-    - run: echo additionaltag ${{ inputs.additionaltag }}
+      id: tags
+    - run: echo tags ${{ steps.tags.outputs.all }}
       shell: bash
-    - run: echo tagversion ${{ steps.tag.outputs.version }}
+
+    - name: concat buildargs
+      run: |
+        list="baseimage=${{ inputs.baseimage }}
+        ${{ inputs.additional_buildargs }}"
+
+        for item in ${list//\\n/
+        }
+        do
+           args=$args"--build-arg $item "
+        done
+        echo "dbg concat: $args"
+        echo "::set-output name=build::$args"
       shell: bash
+      id: args
+    - run: echo buildargs "${{ steps.args.outputs.build }}"
+      shell: bash
+
     - run: echo path ${{ inputs.path }}
       shell: bash
     - run: echo dockerfile ${{ inputs.dockerfile }}
       shell: bash
-    - run: echo basimage ${{ inputs.baseimage }}
+    - run: echo baseimage ${{ inputs.baseimage }}
       shell: bash
-    - run: echo additional_buildargs ${{ inputs.additional_buildargs }}
+    - run: echo imagename ${{ inputs.imagename }}
       shell: bash
     - name: docker login
       # stores credentials unencrypted as of writing, `pass` encryption
