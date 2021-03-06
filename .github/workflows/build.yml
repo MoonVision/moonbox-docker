@@ -1,8 +1,36 @@
 name: build
 
-on: push
+on:
+  push:
+  workflow_dispatch:
+
+env:
+  DUMMY: huhu
+  DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
 jobs:
+  docker-login-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: global env test
+        run: |
+          echo DUMMY ${{ env.DUMMY }}
+          echo DUMMY "$DUMMY"
+        shell: bash
+      - name: docker login test
+        run: |
+          echo ${{ env.DOCKER_USER }}
+          echo ${{ env.DOCKER_TOKEN }}
+        shell: bash
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+
   docker-common-base:
     runs-on: ubuntu-latest
     steps:

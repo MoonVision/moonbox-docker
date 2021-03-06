@@ -45,3 +45,18 @@ runs:
       shell: bash
     - run: echo additional_buildargs ${{ inputs.additional_buildargs }}
       shell: bash
+
+    - name: global env test
+      run: |
+        echo DUMMY ${{ env.DUMMY }}
+        echo DUMMY "$DUMMY"
+      shell: bash
+    - name: docker login test
+      run: |
+        echo ${{ env.DOCKER_TOKEN }}
+        echo ${{ env.DOCKER_USER }}
+      shell: bash
+
+    - name: docker login
+      run: echo ${{ env.DOCKER_TOKEN }} | docker login -u ${{ env.DOCKER_USER }} --password-stdin
+      shell: bash
