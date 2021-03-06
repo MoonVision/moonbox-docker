@@ -36,7 +36,7 @@ jobs:
         additionaltag: cuda
         path: docker/common-base/image
         dockerfile: docker/common-base/image/Dockerfile
-        baseimage: nvidia/cuda:10.0-devel-ubuntu18.04
+        baseimage: nvidia/cuda:11.2.1-devel-ubuntu20.04
         additional_buildargs: |-
           disable_ssh=true
           disable_cron=true
