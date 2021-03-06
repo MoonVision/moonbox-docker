@@ -1,15 +1,13 @@
 name: create-docker
-description: build and push a docker image
+description: build and push a docker image, return the a latest image tag
 inputs:
   imagename:
     description: docker image to push
     required: true
   additionaltag:
     description: prefix tag before `tagversion` or 'latest'
-    required: false
   tagversion:
     description: last part of tag, defaults to first 8 chars of github.sha
-    required: true
     default: ''
   path:
     description: path to build context
@@ -22,11 +20,7 @@ inputs:
     required: true
   additional_buildargs:
     description: new-line separated build-args
-    required: false
-  imagesuffix:
-    description: suffix to append to pushed images
-    required: false
-    default: '-dev'
+    
 runs:
   using: "composite"
   steps:
@@ -50,7 +44,7 @@ runs:
         ver_tag=$(append ${{ steps.tag.outputs.version }})
         latest_tag=$(append "latest")
 
-        img=${{ inputs.imagename }}${{ inputs.imagesuffix}}
+        img=${{ inputs.imagename }}
         tags="-t $img:$ver_tag -t $img:$latest_tag"
         echo "::set-output name=all::$tags"
       shell: bash
@@ -81,8 +75,7 @@ runs:
       shell: bash
     - run: echo baseimage ${{ inputs.baseimage }}
       shell: bash
-    - run: echo imagename ${{ inputs.imagename }}
-      shell: bash
+
     - name: docker login
       # stores credentials unencrypted as of writing, `pass` encryption
       # coming soon to ubuntu-latest runner
@@ -91,7 +84,7 @@ runs:
       shell: bash
 
     - name: docker logout
-      # unfortunately post: nor runs.steps.if is supported in composite action
+      # unfortunately neither post: nor runs.steps.if is supported in composite action
       # https://github.community/t/no-post-run-capability-for-composite-actions/139046/4
       run: docker logout
       shell: bash
