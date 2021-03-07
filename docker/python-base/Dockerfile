@@ -2,9 +2,6 @@ ARG baseimage='moonvision/common-base'
 
 FROM ${baseimage}
 
-ENV CPATH="/opt/conda/include"
-ENV PATH="/opt/conda/bin:$PATH"
-
 ARG DEBIAN_FRONTEND='noninteractive'
 RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
@@ -16,7 +13,9 @@ RUN apt-get update -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
+ENV CPATH="/opt/conda/include"
+ENV PATH="/opt/conda/bin:$PATH"
+
 COPY . /bd_build
 
 RUN bash /bd_build/install_conda.sh
-RUN bash /bd_build/install_conda2.sh
