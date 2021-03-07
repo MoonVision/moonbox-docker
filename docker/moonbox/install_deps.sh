@@ -29,9 +29,6 @@ rm -rf /ffmpeg-packages
 pip install /pytorch-packages/*.whl
 rm -rf /pytorch-packages
 
-conda install --file /bd_build/conda-list.txt
-pip install --requirement /bd_build/requirements.txt
-
 echo "with_genicam: ${with_genicam}, with_pylon: ${with_pylon}, with_cuda: ${with_cuda}"
 
 if test "$with_genicam" = "true"; then

@@ -1,2 +1,0 @@
-aiohttp=3.5.4
-sqlite=3.27.2
