@@ -14,21 +14,6 @@ RUN dpkg -i /cmake-packages/*.deb \
  && rm -rf /cmake-packages \
  && mkdir -p /packages
 
-ARG fbgemm_tag='60e318d48dd72a22a1f63fa625387d4b7363bd23'
-RUN git clone https://github.com/pytorch/FBGEMM \
- && cd FBGEMM \
- && git checkout $fbgemm_tag \
- && git submodule sync \
- && git submodule update --init --recursive
-RUN cd FBGEMM \
- && mkdir build \
- && cd build \
- && cmake .. \
- && make \
- && checkinstall
-RUN find . -name '*.deb' \
- && cp ./FBGEMM/build/*.deb /packages
-
 ARG pytorch_tag='v1.4.0'
 RUN git clone --branch $pytorch_tag --recursive https://github.com/pytorch/pytorch \
  && cd pytorch \
