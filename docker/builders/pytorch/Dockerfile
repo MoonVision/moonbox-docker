@@ -22,6 +22,8 @@ RUN git clone --branch $pytorch_tag --recursive https://github.com/pytorch/pytor
  && git submodule update --init --recursive
 RUN cd pytorch \
  && . /opt/conda/bin/activate \
+ && export PYTORCH_BUILD_VERSION=$(sed -e 's/[a-z]\+//' version.txt) \
+ && export PYTORCH_BUILD_NUMBER=1 \
  && export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"} \
  && export TORCH_CUDA_ARCH_LIST="3.7;6.1;7.5" \
  && python setup.py install \
@@ -38,6 +40,7 @@ RUN git clone --recursive https://github.com/pytorch/vision \
  && git submodule update --init --recursive
 RUN cd vision \
  && . /opt/conda/bin/activate \
+ && export BUILD_VERSION=$(sed -e 's/[a-z]\+//' version.txt) \
  && export TORCH_CUDA_ARCH_LIST="3.7;6.1;7.5" \
  && export FORCE_CUDA=$torchvision_cuda \
  && python setup.py install \
