@@ -1,6 +1,6 @@
 ARG baseimage='moonvision/python-base'
 ARG ffmpeg_from_docker='moonvision/custom-builds:ffmpeg-4.2.1'
-ARG pytorch_from_docker='moonvision/custom-builds:pytorch-1.3.1_torchvision-0.4.2'
+ARG pytorch_from_docker='moonvision/custom-builds:pytorch-1.6.0_torchvision-0.7.0'
 
 FROM $ffmpeg_from_docker as ffmpeg_builder
 FROM $pytorch_from_docker as pytorch_builder

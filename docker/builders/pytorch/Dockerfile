@@ -16,9 +16,9 @@ RUN dpkg -i /cmake-packages/*.deb \
 COPY . /bd_build
 
 ARG prebuilt='false'
-ARG pytorch_tag='v1.4.0'
+ARG pytorch_tag='v1.6.0'
 RUN /bd_build/build_pytorch.sh
-ARG torchvision_tag='v0.5.0'
+ARG torchvision_tag='v0.7.0'
 RUN /bd_build/build_torchvision.sh
 
 FROM scratch
