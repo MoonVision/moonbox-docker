@@ -1,7 +1,10 @@
-ARG baseimage='moonvision/python-base:latest'
+ARG baseimage='ubuntu:20.04'
 
 ARG cmake_from_docker='moonvision/custom-builds:cmake-3.15.5'
 FROM $cmake_from_docker AS cmake_builder
+
+ARG python_from_docker='moonvision/python-base:latest'
+FROM $python_from_docker AS python_builder
 
 FROM ${baseimage} AS builder
 
@@ -12,6 +15,9 @@ RUN apt-get update --yes \
 COPY --from=cmake_builder /packages /cmake-packages
 RUN dpkg -i /cmake-packages/*.deb \
  && rm -rf /cmake-packages
+
+COPY --from=python_builder /opt/conda /opt/conda
+ENV PATH=$PATH:/opt/conda/bin
 
 COPY . /bd_build
 
