@@ -8,6 +8,7 @@ Docker images for computer vision and deep learning.
 
 Moonboxes is a set of Ubuntu based Docker images made for training and evaluating deep neural networks.
 
+**Todo**: update dependencies.jpg
 ![Dependency Tree](dependencies.png)
 
 ### common-base
@@ -27,12 +28,12 @@ docker build -t moonvision/common-base:latest -f docker/common-base/image/Docker
 #### Common Base with CUDA
 
 ```
-docker build -t moonvision/common-base:cuda-latest -f docker/common-base/image/Dockerfile --build-arg baseimage=nvidia/cuda:11.2.1-devel-ubuntu20.04 docker/common-base/image/
+docker build -t moonvision/common-base:cuda-latest -f docker/common-base/image/Dockerfile --build-arg baseimage=nvidia/cuda:11.0-base-ubuntu20.04 docker/common-base/image
 ```
 
 | Build arg | Default | Description |
 |-|-|-|
-| `baseimage` | [`nvidia/cuda:11.2.1-devel-ubuntu20.04`](https://hub.docker.com/r/nvidia/cuda) | Build images with different Cuda versions. |
+| `baseimage` | [`nvidia/cuda:11.0-base-ubuntu20.04`](https://hub.docker.com/r/nvidia/cuda) | Build images with different Cuda versions. |
 
 ### python-base
 
