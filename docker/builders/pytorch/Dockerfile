@@ -11,41 +11,15 @@ RUN apt-get update --yes \
 
 COPY --from=cmake_builder /packages /cmake-packages
 RUN dpkg -i /cmake-packages/*.deb \
- && rm -rf /cmake-packages \
- && mkdir -p /packages
+ && rm -rf /cmake-packages
 
+COPY . /bd_build
+
+ARG prebuilt='false'
 ARG pytorch_tag='v1.4.0'
-RUN git clone --branch $pytorch_tag --recursive https://github.com/pytorch/pytorch \
- && cd pytorch \
- && git checkout $pytorch_tag \
- && git submodule sync \
- && git submodule update --init --recursive
-RUN cd pytorch \
- && . /opt/conda/bin/activate \
- && export PYTORCH_BUILD_VERSION=$(sed -e 's/[a-z]\+//' version.txt) \
- && export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"} \
- && export TORCH_CUDA_ARCH_LIST="3.7;6.1;7.5" \
- && python setup.py install \
- && python setup.py bdist_wheel
-RUN find pytorch -name '*.whl' \
- && cp pytorch/dist/*.whl /packages
-
+RUN /bd_build/build_pytorch.sh
 ARG torchvision_tag='v0.5.0'
-ARG torchvision_cuda='0'
-RUN git clone --recursive https://github.com/pytorch/vision \
- && cd vision \
- && git checkout $torchvision_tag \
- && git submodule sync \
- && git submodule update --init --recursive
-RUN cd vision \
- && . /opt/conda/bin/activate \
- && export BUILD_VERSION=$(sed -e 's/[a-z]\+//' version.txt) \
- && export TORCH_CUDA_ARCH_LIST="3.7;6.1;7.5" \
- && export FORCE_CUDA=$torchvision_cuda \
- && python setup.py install \
- && python setup.py bdist_wheel
-RUN find vision -name '*.whl' \
- && cp vision/dist/*.whl /packages
+RUN /bd_build/build_torchvision.sh
 
 FROM scratch
 COPY --from=builder /packages /packages

@@ -171,11 +171,11 @@ docker build -t moonvision/custom-builds:pytorch-latest -f docker/builders/pytor
 
 | Build arg | Default | Description |
 |-|-|-|
-| `baseimage` | `moonvision/python-base:latest` | Set the image on which PyTorch will be build. |
+| `baseimage` | `moonvision/python-base:latest` | Set the image on which PyTorch will be built. |
 | `cmake_from_docker` | `moonvision/custom-builds:cmake-3.15.5` | Image from which CMake will be installed. |
-| `fbgemm_tag` | `6aaaa4754fe2a7467c5f0584648ba47482caad7d` | FBGEMM git commit to build. |
-| `pytorch_tag` | `v1.3.1` | PyTorch version tag to build. |
-| `torchvision_tag` | `v0.4.2` | Torchvision version tag to build. |
+| `pytorch_tag` | `v1.3.1` | PyTorch version (tag or commit if built, pip version if downloaded). |
+| `torchvision_tag` | `v0.4.2` | Torchvision version (tag or commit if built, pip version if downloaded). |
+| `prebuilt` | `false` | If `true` [download](https://pytorch.org/get-started/locally/) pip versions instead of building from source. |
 
 #### PyTorch with CUDA
 
@@ -187,6 +187,6 @@ docker build -t moonvision/custom-builds:pytorch-latest -f docker/builders/pytor
 |-|-|-|
 | `baseimage` | `moonvision/python-base:cuda-latest` | Set the image on PyTorch FFmpeg will be build. |
 | `cmake_from_docker` | `moonvision/custom-builds:cmake-3.15.5` | Image from which CMake will be installed. |
-| `fbgemm_tag` | `6aaaa4754fe2a7467c5f0584648ba47482caad7d` | FBGEMM git commit to build. |
-| `pytorch_tag` | `v1.3.1` | PyTorch version tag to build. |
-| `torchvision_tag` | `v0.4.2` | Torchvision version tag to build. |
+| `pytorch_tag` | `v1.3.1` | PyTorch version (tag or commit if built, pip version if downloaded). |
+| `torchvision_tag` | `v0.4.2` | Torchvision version (tag or commit if built, pip version if downloaded). |
+| `prebuilt` | `false` | If `true` [download](https://pytorch.org/get-started/locally/) pip versions instead of building from source. |
