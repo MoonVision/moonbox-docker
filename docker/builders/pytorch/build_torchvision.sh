@@ -9,7 +9,7 @@ build_vision ()
   submodule update --init --recursive
 
   # make version pip compatible
-  export BUILD_VERSION=$(sed -e 's/[a-z]\+//' version.txt)
+  export BUILD_VERSION=$(sed -e 's/[a-z].//' version.txt)
   export TORCH_CUDA_ARCH_LIST="3.7;6.1;7.5"
   export FORCE_CUDA=`[ $CUDA_HOME ] && echo 1 || echo 0`
   python setup.py install

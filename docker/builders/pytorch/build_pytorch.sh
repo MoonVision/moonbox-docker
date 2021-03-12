@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-build_torch ()
+build_pytorch ()
 {
   git clone --branch $pytorch_tag --recursive https://github.com/pytorch/pytorch
   pushd pytorch
@@ -9,7 +9,7 @@ build_torch ()
   git submodule update --init --recursive
 
   # make version pip compatible
-  export PYTORCH_BUILD_VERSION=$(sed -e 's/[a-z]\+//' version.txt)
+  export PYTORCH_BUILD_VERSION=$(sed -e 's/[a-z].//' version.txt)
   export PYTORCH_BUILD_NUMBER=1
   export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
   export TORCH_CUDA_ARCH_LIST="3.7;6.1;7.5"
@@ -26,6 +26,6 @@ if [[ $prebuilt == true ]]; then
   pip download torch==$pytorch_tag -d /packages --no-deps \
     -f https://download.pytorch.org/whl/torch_stable.html
 else
-  build_torch
-  cp torch/dist/*.whl /packages
+  build_pytorch
+  cp pytorch/dist/*.whl /packages
 fi
