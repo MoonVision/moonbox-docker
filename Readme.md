@@ -191,4 +191,4 @@ docker build -t moonvision/custom-builds:pytorch-latest -f docker/builders/pytor
 | `python_from_docker` | `moonvision/python-base:cuda-latest` | Image to use conda python from for building. |
 | `pytorch_tag` | `v1.6.0` | PyTorch version (tag or commit if built, pip version if downloaded). |
 | `torchvision_tag` | `v0.7.0` | Torchvision version (tag or commit if built, pip version if downloaded). |
-| `prebuilt` | `false` | If `true` [download](https://pytorch.org/get-started/locally/) pip versions instead of building from source. |
+| `prebuilt` | `true` | If `true` [download](https://pytorch.org/get-started/locally/) pip versions instead of building from source. |

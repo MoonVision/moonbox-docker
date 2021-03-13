@@ -136,9 +136,9 @@ jobs:
         dockerfile: docker/builders/pytorch/Dockerfile
         additional_buildargs: |-
           python_from_docker=moonvision/${{ env.IMAGE_PRE }}python-base
-          pytorch_tag=v1.6.0+cpu
-          torchvision_tag=v0.7.0+cpu
-          prebuilt=true
+          pytorch_tag=v1.6.0
+          torchvision_tag=v0.7.0
+          prebuilt=false
   build-pytorch-cuda:
     needs:
     - docker-python-base-cuda
