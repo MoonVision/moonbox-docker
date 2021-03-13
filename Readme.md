@@ -8,7 +8,6 @@ Docker images for computer vision and deep learning.
 
 Moonboxes is a set of Ubuntu based Docker images made for training and evaluating deep neural networks.
 
-**Todo**: update dependencies.jpg
 ![Dependency Tree](dependencies.png)
 
 ### common-base
