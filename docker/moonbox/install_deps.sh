@@ -8,7 +8,7 @@ echo Install common Python dependencies
 
 apt-get update -y
 
-apt-get install --yes \
+apt-get install --yes --no-install-recommends \
     libass-dev \
     libfreetype6-dev \
     libsdl2-dev \
@@ -42,5 +42,13 @@ if test "$with_pylon" = "true"; then
 else
     echo 'Skip Pylon'
 fi
+
+if test "$with_cuda" = "true"; then
+    bash /bd_build/install_cuda.sh
+else
+    echo 'Skip Cuda'
+fi
+
+rm -rf /var/lib/apt/lists/*
 
 ldconfig
