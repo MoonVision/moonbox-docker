@@ -8,21 +8,6 @@ echo Install common Python dependencies
 
 apt-get update -y
 
-apt-get install --yes --no-install-recommends \
-    libass-dev \
-    libfreetype6-dev \
-    libsdl2-dev \
-    libtool \
-    libva-dev \
-    libvdpau-dev \
-    libvorbis-dev \
-    libxcb1-dev \
-    libxcb-shm0-dev \
-    libxcb-xfixes0-dev \
-    libopus-dev \
-    libvpx-dev \
-    libx264-dev \
-    yasm
 dpkg -i /ffmpeg-packages/*.deb
 rm -rf /ffmpeg-packages
 
