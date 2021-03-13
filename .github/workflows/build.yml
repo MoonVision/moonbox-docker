@@ -79,8 +79,6 @@ jobs:
         baseimage: ubuntu:20.04
         additional_buildargs: ffmpeg_version=4.2.1
   build-ffmpeg-cuda:
-    needs:
-    - docker-python-base-cuda
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
