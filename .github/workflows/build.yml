@@ -3,6 +3,8 @@ name: build
 on:
   push:
   workflow_dispatch:
+  schedule:
+    - cron: '0 23 * * *'
 
 env:
   # default user for pushing
