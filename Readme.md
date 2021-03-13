@@ -1,5 +1,7 @@
 # Moonbox
 
+[![build](https://github.com/MoonVision/moonbox-docker/actions/workflows/build.yml/badge.svg)](https://github.com/MoonVision/moonbox-docker/actions/workflows/build.yml)
+
 Docker images for computer vision and deep learning.
 
 ![Logo](logo.png)
