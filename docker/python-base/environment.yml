@@ -20,5 +20,5 @@ dependencies:
   - typing_extensions
   - pip
   - pip:
-    - opencv-contrib-python-headless==4.2.0.32
-    - opencv-python-headless==4.2.0.32
+    - opencv-contrib-python-headless==4.2.0.34
+    - opencv-python-headless==4.2.0.34
