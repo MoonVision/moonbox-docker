@@ -26,6 +26,8 @@ runs:
   steps:
     - name: determine version
       run: |
+        # break action intentionally
+        exit 1
         version=${{ inputs.tagversion }}
         version=${version:-$(git rev-parse --short=8 HEAD)}
         echo "::set-output name=version::"$version
