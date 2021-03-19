@@ -1,9 +1,10 @@
-ARG baseimage='ubuntu:18.04'
+ARG baseimage='ubuntu:20.04'
 
 FROM ${baseimage} as builder
 
 ARG cmake_tag=v3.15.5
 
+ARG DEBIAN_FRONTEND='noninteractive'
 RUN apt-get update -y \
  && apt-get install -y git gcc g++ checkinstall build-essential
 RUN mkdir ~/temp \

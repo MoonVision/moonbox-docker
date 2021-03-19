@@ -3,13 +3,12 @@ set -euo pipefail
 
 mkdir -p /packages
 
-#sed -ie 's/libnpp/libnppc/g' configure
 if [[ "$WITH_CUDA" == 'true' ]]; then
-    wget https://github.com/FFmpeg/nv-codec-headers/releases/download/n9.1.23.1/nv-codec-headers-9.1.23.1.tar.gz
-    tar xf nv-codec-headers-9.1.23.1.tar.gz
-    pushd nv-codec-headers-9.1.23.1
+    wget https://github.com/FFmpeg/nv-codec-headers/releases/download/n11.0.10.0/nv-codec-headers-11.0.10.0.tar.gz
+    tar xf nv-codec-headers-11.0.10.0.tar.gz
+    pushd nv-codec-headers-11.0.10.0
     make
-    checkinstall --pkgversion=9.1.23.1
+    checkinstall --pkgversion=11.0.10.0
     dpkg -i *.deb
     cp *.deb /packages
     popd
@@ -26,8 +25,8 @@ tmp=${WITH_CUDA/false/}
 ./configure \
     ${tmp/true/--enable-cuda --enable-cuvid --enable-nvenc \
                --enable-nonfree --enable-libnpp \
-               --extra-cflags=-I/usr/local/cuda-10.0/targets/x86_64-linux/include \
-               --extra-ldflags=-L/usr/local/cuda-10.0/targets/x86_64-linux/lib} \
+               --extra-cflags=-I/usr/local/cuda/include \
+               --extra-ldflags=-L/usr/local/cuda/lib64} \
     --enable-shared --disable-static \
     --extra-libs="-lpthread -lm" \
     --enable-gpl \

@@ -1,0 +1,24 @@
+name: base
+#  moonvision/python-base
+#
+#  Dependencies include a small set of build-time
+#  dependencies to ease compiling libraries.
+dependencies:
+  - blas=1.0
+  - cffi
+  - future
+  - mkl=2020.2
+  - mkl-include=2020.2
+  - ninja
+  - numpy=1.19.2
+  - python=3.8
+  - pyyaml
+  - requests
+  - setuptools
+  - six
+  - swig
+  - typing_extensions
+  - pip
+  - pip:
+    - opencv-contrib-python-headless==4.2.0.34
+    - opencv-python-headless==4.2.0.34

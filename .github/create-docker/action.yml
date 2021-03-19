@@ -1,0 +1,102 @@
+name: create-docker
+description: build and push a docker image, return the a latest image tag
+inputs:
+  imagename:
+    description: docker image to push
+    required: true
+  additionaltag:
+    description: prefix tag before `tagversion` or 'latest'
+  tagversion:
+    description: last part of tag, defaults to first 8 chars of github.sha
+    default: ''
+  path:
+    description: path to build context
+    required: true
+  dockerfile:
+    description: path to Dockerfile
+    required: true
+  baseimage:
+    description: base image build argument
+    required: true
+  additional_buildargs:
+    description: new-line separated build-args
+    
+runs:
+  using: "composite"
+  steps:
+    - name: determine version
+      run: |
+        version=${{ inputs.tagversion }}
+        version=${version:-$(git rev-parse --short=8 HEAD)}
+        echo "::set-output name=version::"$version
+      shell: bash
+      id: tag
+    - name: concat tags
+      run: |
+        append() {
+        # latest or hash
+        ver=$1
+        # additional prefix
+        tag=${{ inputs.additionaltag }}
+        [ $tag ] && echo "$tag"-"$ver" || echo "$ver"
+        }
+
+        ver_tag=$(append ${{ steps.tag.outputs.version }})
+        latest_tag=$(append "latest")
+
+        img=${{ inputs.imagename }}
+        tags="-t $img:$ver_tag -t $img:$latest_tag"
+        echo "::set-output name=all::$tags"
+        echo "::set-output name=ver_tag::$ver_tag"
+        echo "::set-output name=latest_tag::$latest_tag"
+      shell: bash
+      id: tags
+    - run: |
+        echo ver_tag ${{ steps.tags.outputs.ver_tag }}
+        echo latest_tag ${{ steps.tags.outputs.latest_tag }}
+        echo tags ${{ steps.tags.outputs.all }}
+      shell: bash
+
+    - name: concat buildargs
+      run: |
+        list="baseimage=${{ inputs.baseimage }}
+        ${{ inputs.additional_buildargs }}"
+
+        for item in ${list//\\n/
+        }
+        do
+           args=$args"--build-arg $item "
+        done
+        echo "::set-output name=build::$args"
+      shell: bash
+      id: args
+    - run: echo buildargs "${{ steps.args.outputs.build }}"
+      shell: bash
+
+    - name: docker login
+      # stores credentials unencrypted as of writing, `pass` encryption
+      # coming soon to ubuntu-latest runner
+      # https://github.com/actions/virtual-environments/issues/2302
+      run: echo ${{ env.DOCKER_TOKEN }} | docker login -u ${{ env.DOCKER_USER }} --password-stdin
+      shell: bash
+
+    - name: docker build
+      run: |
+        set -x
+        docker build --pull -f ${{ inputs.dockerfile }} \
+          ${{ steps.tags.outputs.all }} \
+          ${{ steps.args.outputs.build }} \
+          ${{ inputs.path }}
+      shell: bash
+      
+    - name: docker push
+      run: |
+        docker push ${{ inputs.imagename }}:${{ steps.tags.outputs.ver_tag }}
+        docker push ${{ inputs.imagename }}:${{ steps.tags.outputs.latest_tag }}
+      shell: bash
+      
+    - name: docker logout
+      # unfortunately neither post: nor runs.steps.if is supported in composite action
+      # https://github.community/t/no-post-run-capability-for-composite-actions/139046/4
+      run: docker logout
+      shell: bash
