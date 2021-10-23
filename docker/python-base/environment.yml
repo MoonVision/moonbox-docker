@@ -6,19 +6,18 @@ name: base
 channels:
   - conda-forge
 dependencies:
-  - blas=2.112
+  - libblas=*=*mkl
   - cffi
   - future
   - mkl=2021.4
-  - mkl-include=2020.2
+  - mkl-include=2021.4
   - ninja
   - numpy=1.21.3
   - python=3.8
-  - pyyaml
+  - pyyaml=5.4.1
   - requests
   - setuptools
   - six
-  - swig
   - typing_extensions
   - pip
   - pip:
