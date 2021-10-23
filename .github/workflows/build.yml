@@ -133,7 +133,7 @@ jobs:
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: pytorch
-        tagversion: 1.6.0_torchvision-0.11.1
+        tagversion: 1.10.0_torchvision-0.11.1
         baseimage: ubuntu:20.04
         path: docker/builders/pytorch
         dockerfile: docker/builders/pytorch/Dockerfile
@@ -153,7 +153,7 @@ jobs:
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: pytorch-cuda
-        tagversion: 1.6.0_torchvision-0.11.1
+        tagversion: 1.10.0_torchvision-0.11.1
         baseimage: nvidia/cuda:11.0-devel-ubuntu20.04
         path: docker/builders/pytorch
         dockerfile: docker/builders/pytorch/Dockerfile
@@ -252,4 +252,4 @@ jobs:
           with_pylon=false
           with_cuda=true
           ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-cuda-4.2.1
-          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-cuda-1.6.0_torchvision-0.11.1
+          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-cuda-1.10.0_torchvision-0.11.1
