@@ -21,9 +21,16 @@ build_vision ()
 
 mkdir -p /packages
 
+
 if [[ $prebuilt == true ]]; then
-  pip download torchvision==$torchvision_tag -d /packages --no-deps \
-    -f https://download.pytorch.org/whl/torch_stable.html
+  if [[ $with_cuda == true ]]; then
+    pip download torchvision==$torchvision_tag -d /packages --no-deps \
+      -f https://download.pytorch.org/whl/torch_stable.html
+     https://download.pytorch.org/whl/cu111/torch_stable.html
+  else
+    pip download torchvision==$torchvision_tag -d /packages --no-deps \
+      -f https://download.pytorch.org/whl/cpu/torch_stable.html
+  fi
 else
   build_vision
   cp vision/dist/*.whl /packages
