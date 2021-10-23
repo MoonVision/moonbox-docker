@@ -13,7 +13,7 @@ env:
   DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   # default prefix for all pushed images,
   # set if you need to push images to another set of repos
-  IMAGE_PRE: ''
+  IMAGE_PRE: 'dev-'
 
 jobs:
   docker-common-base:
