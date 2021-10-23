@@ -1,22 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-wget -q https://repo.anaconda.com/miniconda/Miniconda3-py38_4.10.3-Linux-x86_64.sh -O ~/miniconda.sh
-/bin/bash ~/miniconda.sh -b -p /opt/conda
-rm ~/miniconda.sh
-ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh
-/opt/conda/bin/conda update -n base -c defaults conda
-/opt/conda/bin/conda init bash
+curl -L -O https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh
+# intro accept, accept license, install at default location, don't run conda init
+bash Mambaforge-$(uname)-$(uname -m).sh << EOF
+
+yes
+
+no
+EOF
+
+rm Mambaforge-$(uname)-$(uname -m).sh
+
+# activate in current and future sessions
+eval "$(~/mambaforge/bin/conda shell.bash hook)"
+conda init bash
 
 echo "Updating conda base environment..."
+# downgrades to py 3.8 just fine
 conda env update -f /bd_build/environment.yml
 
 conda clean --all -f --yes
-find /opt/conda/ -type f,l -name '*.a' -delete
-find /opt/conda/ -type f,l -name '*.pyc' -delete
-find /opt/conda/ -type f,l -name '*.js.map' -delete
-rm -rf /opt/conda/pkgs
+find ~/mambaforge -type f,l -name '*.a' -delete
+find ~/mambaforge -type f,l -name '*.pyc' -delete
+find ~/mambaforge -type f,l -name '*.js.map' -delete
 pip cache purge
-
-echo '# Conda (base) library folder' >> /etc/ld.so.conf.d/conda-libs.conf
-echo '/opt/conda/lib' >> /etc/ld.so.conf.d/conda-libs.conf

@@ -3,6 +3,8 @@ name: base
 #
 #  Dependencies include a small set of build-time
 #  dependencies to ease compiling libraries.
+channels:
+  - conda-forge
 dependencies:
   - blas=2.112
   - cffi
