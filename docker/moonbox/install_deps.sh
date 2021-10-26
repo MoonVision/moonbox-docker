@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-. /opt/conda/bin/activate
-
 set -eo pipefail
 
 echo Install common Python dependencies
