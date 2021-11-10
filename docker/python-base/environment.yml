@@ -12,7 +12,7 @@ dependencies:
   - ninja
   - numpy=1.19.2
   - python=3.8
-  - pyyaml
+  - pyyaml=5.4.1
   - requests
   - setuptools
   - six
