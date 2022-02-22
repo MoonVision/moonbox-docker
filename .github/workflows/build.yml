@@ -162,6 +162,7 @@ jobs:
           pytorch_tag=v1.10.2
           torchvision_tag=v0.11.3
           prebuilt=true
+          with_cuda=true
   build-cmake:
     runs-on: ubuntu-latest
     steps:
