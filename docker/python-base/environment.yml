@@ -9,10 +9,10 @@ dependencies:
   - libblas=*=*mkl
   - cffi
   - future
-  - mkl=2021.4
-  - mkl-include=2021.4
+  - mkl=2022.0
+  - mkl-include=2022.0
   - ninja
-  - numpy=1.21.3
+  - numpy=1.22.1
   - python=3.8
   - pyyaml=5.4.1
   - requests
