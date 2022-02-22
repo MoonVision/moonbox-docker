@@ -16,7 +16,8 @@ dependencies:
   - python=3.8
   - pyyaml=5.4.1
   - requests
-  - setuptools
+  # pinned due to: https://github.com/pytorch/pytorch/pull/69904
+  - setuptools==59.5.0
   - six
   - typing_extensions
   - pip
