@@ -25,8 +25,7 @@ mkdir -p /packages
 if [[ $prebuilt == true ]]; then
   if [[ $with_cuda == true ]]; then
     pip download torchvision==$torchvision_tag -d /packages --no-deps \
-      -f https://download.pytorch.org/whl/torch_stable.html
-     https://download.pytorch.org/whl/cu111/torch_stable.html
+      -f https://download.pytorch.org/whl/cu113/torch_stable.html
   else
     pip download torchvision==$torchvision_tag -d /packages --no-deps \
       -f https://download.pytorch.org/whl/cpu/torch_stable.html
