@@ -2,14 +2,8 @@
 set -euo pipefail
 
 curl -L -O https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh
-# intro accept, accept license, install at historical conda location, don't run conda init
-bash Mambaforge-$(uname)-$(uname -m).sh << EOF
-
-yes
-/opt/conda
-no
-EOF
-
+# install at historical conda location, don't run conda init
+bash Mambaforge-$(uname)-$(uname -m).sh -b -p /opt/conda -s
 rm Mambaforge-$(uname)-$(uname -m).sh
 
 # activate in current and future sessions
