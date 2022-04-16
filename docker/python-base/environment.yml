@@ -12,7 +12,7 @@ dependencies:
   - mkl=2022.0
   - mkl-include=2022.0
   - ninja
-  - numpy=1.22.1
+  - numpy=1.21.6
   - python=3.8
   - pyyaml=5.4.1
   - requests
