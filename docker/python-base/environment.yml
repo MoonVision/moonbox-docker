@@ -6,6 +6,9 @@ name: base
 channels:
   - conda-forge
 dependencies:
+  # switch all blas requirements to use mkl
+  # implementation, see: https://conda-forge.org/docs/maintainer/knowledge_base.html#blas
+  # it doesn't constrain the libblas version (1st *), but the build string to end in 'mkl' (2nd *)
   - libblas=*=*mkl
   - cffi
   - future
