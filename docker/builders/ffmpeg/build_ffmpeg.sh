@@ -24,7 +24,7 @@ cd /tmp/ffmpeg_sources/ffmpeg-${FFMPEG_VERSION}
 tmp=${WITH_CUDA/false/}
 ./configure \
     ${tmp/true/--enable-cuda --enable-cuvid --enable-nvenc \
-               --enable-nonfree --enable-libnpp \
+               --enable-nonfree \
                --extra-cflags=-I/usr/local/cuda/include \
                --extra-ldflags=-L/usr/local/cuda/lib64} \
     --enable-shared --disable-static \
