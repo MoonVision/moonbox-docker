@@ -39,7 +39,7 @@ jobs:
         additionaltag: cuda
         path: docker/common-base/image
         dockerfile: docker/common-base/image/Dockerfile
-        baseimage: nvidia/cuda:11.0-base-ubuntu20.04
+        baseimage: nvidia/cuda:11.0.3-devel-ubuntu20.04
         additional_buildargs: |-
           disable_ssh=true
           disable_cron=true
@@ -90,7 +90,7 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: ffmpeg-cuda
         tagversion: 4.2.1
-        baseimage: nvidia/cuda:11.0-devel-ubuntu20.04
+        baseimage: nvidia/cuda:11.0.3-devel-ubuntu20.04
         path: docker/builders/ffmpeg
         dockerfile: docker/builders/ffmpeg/Dockerfile
         additional_buildargs: |-
@@ -154,7 +154,7 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: pytorch-cuda
         tagversion: 1.6.0_torchvision-0.7.0
-        baseimage: nvidia/cuda:11.0-devel-ubuntu20.04
+        baseimage: nvidia/cuda:11.0.3-devel-ubuntu20.04
         path: docker/builders/pytorch
         dockerfile: docker/builders/pytorch/Dockerfile
         additional_buildargs: |-
