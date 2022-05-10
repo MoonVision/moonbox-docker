@@ -29,12 +29,12 @@ docker build -t moonvision/common-base:latest -f docker/common-base/image/Docker
 #### Common Base with CUDA
 
 ```
-docker build -t moonvision/common-base:cuda-latest -f docker/common-base/image/Dockerfile --build-arg baseimage=nvidia/cuda:11.0.3-devel-ubuntu20.04 docker/common-base/image
+docker build -t moonvision/common-base:cuda-latest -f docker/common-base/image/Dockerfile --build-arg baseimage=nvidia/cuda:11.0.3-base-ubuntu20.04 docker/common-base/image
 ```
 
 | Build arg | Default | Description |
 |-|-|-|
-| `baseimage` | [`nvidia/cuda:11.0.3-devel-ubuntu20.04`](https://hub.docker.com/r/nvidia/cuda) | Build images with different Cuda versions. |
+| `baseimage` | [`nvidia/cuda:11.0.3-base-ubuntu20.04`](https://hub.docker.com/r/nvidia/cuda) | Build images with different Cuda versions. |
 
 ### python-base
 
@@ -156,12 +156,12 @@ docker build -t moonvision/custom-builds:ffmpeg-latest -f docker/builders/ffmpeg
 #### FFmpeg with CUDA
 
 ```
-docker build -t moonvision/custom-builds:ffmpeg-cuda-latest -f docker/builders/ffmpeg/Dockerfile --build-arg baseimage=nvidia/cuda:11.0.3-devel-ubuntu20.04 --build-arg ffmpeg_version=4.2.1 --build-arg with_cuda=true docker/builders/ffmpeg
+docker build -t moonvision/custom-builds:ffmpeg-cuda-latest -f docker/builders/ffmpeg/Dockerfile --build-arg baseimage=nvidia/cuda:11.0.3-base-ubuntu20.04 --build-arg ffmpeg_version=4.2.1 --build-arg with_cuda=true docker/builders/ffmpeg
 ```
 
 | Build arg | Default | Description |
 |-|-|-|
-| `baseimage` | `nvidia/cuda:11.0.3-devel-ubuntu20.04` | Set the image on which FFmpeg will be built. |
+| `baseimage` | `nvidia/cuda:11.0.3-base-ubuntu20.04` | Set the image on which FFmpeg will be built. |
 | `ffmpeg_version` | `4.2.1` |  The FFmpeg release version to build. |
 | `with_cuda` | `true` | Whether to build FFmpeg with Nvidia hardware acceleration. |
 
@@ -188,7 +188,7 @@ docker build -t moonvision/custom-builds:pytorch-latest -f docker/builders/pytor
 
 | Build arg | Default | Description |
 |-|-|-|
-| `baseimage` | `nvidia/cuda:11.0.3-devel-ubuntu20.04` | Set the image on PyTorch FFmpeg will be built. |
+| `baseimage` | `nvidia/cuda:11.0.3-base-ubuntu20.04` | Set the image on PyTorch FFmpeg will be built. |
 | `cmake_from_docker` | `moonvision/custom-builds:cmake-3.15.5` | Image from which CMake will be installed. |
 | `python_from_docker` | `moonvision/python-base:cuda-latest` | Image to use conda python from for building. |
 | `pytorch_tag` | `v1.6.0` | PyTorch version (tag or commit if built, pip version if downloaded). |
