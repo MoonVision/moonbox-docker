@@ -88,6 +88,11 @@ runs:
           ${{ steps.args.outputs.build }} \
           ${{ inputs.path }}
       shell: bash
+
+    - name: docker image info
+      run: |
+        docker images ${{ inputs.imagename }}:${{ steps.tags.outputs.ver_tag }}
+      shell: bash
       
     - name: docker push
       run: |
