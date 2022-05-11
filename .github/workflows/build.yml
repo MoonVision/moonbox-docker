@@ -12,7 +12,7 @@ env:
   # default token (password) for pushing
   DOCKER_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
   # Prefix for all pushed images,
-  IMAGE_PRE: ${{ github.ref == 'refs/heads/master' && '' || 'dev-' }}
+  IMAGE_PRE: ${{ github.ref_name != 'master' && 'dev-' || '' }}
 
 jobs:
   docker-common-base:
