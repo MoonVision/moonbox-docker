@@ -3,20 +3,23 @@ name: base
 #
 #  Dependencies include a small set of build-time
 #  dependencies to ease compiling libraries.
+channels:
+  - conda-forge
 dependencies:
-  - blas=1.0
+  # switch all blas requirements to use mkl
+  # implementation, see: https://conda-forge.org/docs/maintainer/knowledge_base.html#blas
+  # it doesn't constrain the libblas version (1st *), but the build string to end in 'mkl' (2nd *)
+  - libblas=*=*mkl
   - cffi
   - future
-  - mkl=2020.2
-  - mkl-include=2020.2
+  - mkl=2022.0
+  - mkl-include=2022.0
   - ninja
-  - numpy=1.19.2
+  - numpy=1.21.6
   - python=3.8
   - pyyaml=5.4.1
   - requests
-  - setuptools
   - six
-  - swig
   - typing_extensions
   - pip
   - pip:

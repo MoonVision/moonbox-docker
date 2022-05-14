@@ -22,6 +22,7 @@ ENV PATH="/opt/conda/bin:$PATH"
 COPY . /bd_build
 
 ARG prebuilt='false'
+ARG with_cuda='false'
 ARG pytorch_tag='v1.6.0'
 RUN /bd_build/build_pytorch.sh
 ARG torchvision_tag='v0.7.0'
