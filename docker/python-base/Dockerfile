@@ -1,21 +1,17 @@
-ARG baseimage='moonvision/common-base'
+ARG baseimage='mambaorg/micromamba:1.0.0'
 
 FROM ${baseimage}
 
-ARG DEBIAN_FRONTEND='noninteractive'
+COPY . /bd_build
+RUN micromamba install -y -f /bd_build/environment.yml && \
+    micromamba clean -yaf
+
+USER root
 RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
-    libsm6 \
-    libgomp1 \
-    libssl-dev \
-    wget bzip2 ca-certificates curl git \
+    libglib2.0-0 \
+    wget bzip2 curl git \
   && apt-get purge --autoremove --yes python python3 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
-
-ENV CPATH="/opt/conda/include"
-ENV PATH="/opt/conda/bin:$PATH"
-
-COPY . /bd_build
-
-RUN bash /bd_build/install_conda.sh
+USER $MAMBA_USER

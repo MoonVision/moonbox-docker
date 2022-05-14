@@ -23,8 +23,13 @@ build_pytorch ()
 mkdir -p /packages
 
 if [[ $prebuilt == true ]]; then
-  pip download torch==$pytorch_tag -d /packages --no-deps \
-    -f https://download.pytorch.org/whl/torch_stable.html
+  if [[ $with_cuda == true ]]; then
+    pip download torch==$pytorch_tag -d /packages --no-deps \
+      -f https://download.pytorch.org/whl/cu113/torch_stable.html
+  else
+    pip download torch==$pytorch_tag -d /packages --no-deps \
+      -f https://download.pytorch.org/whl/cpu/torch_stable.html
+  fi
 else
   build_pytorch
   cp pytorch/dist/*.whl /packages
