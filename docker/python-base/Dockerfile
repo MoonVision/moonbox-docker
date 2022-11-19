@@ -7,6 +7,7 @@ RUN micromamba install -y -f /bd_build/environment.yml && \
     micromamba clean -yaf
 
 USER root
+
 RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
     libglib2.0-0 \
@@ -14,4 +15,6 @@ RUN apt-get update -y \
   && apt-get purge --autoremove --yes python python3 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
-USER $MAMBA_USER
+
+# You may seal production images by running:
+#USER $MAMBA_USER
