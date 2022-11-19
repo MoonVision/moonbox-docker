@@ -1,6 +1,6 @@
-ARG python_from_docker='moonvision/python-base:latest'
+ARG baseimage='moonvision/python-base:latest'
 
-FROM $python_from_docker AS builder
+FROM $baseimage AS builder
 
 RUN apt-get update --yes --no-install-recommends \
  && apt-get install --yes gcc g++ checkinstall cmake
