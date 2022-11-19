@@ -39,6 +39,7 @@ if [[ $prebuilt == true ]]; then
       -f https://download.pytorch.org/whl/cpu/torch_stable.html
   fi
 else
+  export USE_BREAKPAD=0  # https://github.com/pytorch/pytorch/issues/73113
   build_pytorch
   cp pytorch/dist/*.whl /packages
 fi
