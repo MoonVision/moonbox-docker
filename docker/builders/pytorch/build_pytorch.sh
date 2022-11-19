@@ -2,16 +2,24 @@
 
 build_pytorch ()
 {
-  git clone --branch $pytorch_tag --recursive https://github.com/pytorch/pytorch
-  pushd pytorch
-  git checkout $pytorch_tag
-  git submodule sync
-  git submodule update --init --recursive
+  set -x
+  curl -L https://github.com/pytorch/pytorch/releases/download/${pytorch_tag}/pytorch-${pytorch_tag}.tar.gz | tar -xz
+  set -e -o pipefail
+  if [[ -d "pytorch-${pytorch_tag}" ]]; then
+    echo "pytorch-$pytorch_tag from tarball"
+    mv "pytorch-${pytorch_tag}" pytorch
+    pushd pytorch
+  else
+    git clone --branch $pytorch_tag --recursive https://github.com/pytorch/pytorch
+    pushd pytorch
+    git checkout $pytorch_tag
+    git submodule sync
+    git submodule update --init --recursive
+  fi
 
   # make version pip compatible
   export PYTORCH_BUILD_VERSION=$(sed -e 's/[a-z].//' version.txt)
   export PYTORCH_BUILD_NUMBER=1
-  export CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
   export TORCH_CUDA_ARCH_LIST="3.7;6.1;7.5"
   python setup.py install
   python setup.py bdist_wheel
