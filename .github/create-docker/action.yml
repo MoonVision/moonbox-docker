@@ -28,7 +28,7 @@ runs:
       run: |
         version=${{ inputs.tagversion }}
         version=${version:-$(git rev-parse --short=8 HEAD)}
-        echo "::set-output name=version::"$version
+        echo "version=$version" >> $GITHUB_OUTPUT
       shell: bash
       id: tag
     - name: concat tags
@@ -46,9 +46,9 @@ runs:
 
         img=${{ inputs.imagename }}
         tags="-t $img:$ver_tag -t $img:$latest_tag"
-        echo "::set-output name=all::$tags"
-        echo "::set-output name=ver_tag::$ver_tag"
-        echo "::set-output name=latest_tag::$latest_tag"
+        echo "all=$tags" >> $GITHUB_OUTPUT
+        echo "ver_tag=$ver_tag" >> $GITHUB_OUTPUT
+        echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
       shell: bash
       id: tags
     - run: |
@@ -67,7 +67,7 @@ runs:
         do
            args=$args"--build-arg $item "
         done
-        echo "::set-output name=build::$args"
+        echo "build=$args" >> $GITHUB_OUTPUT
       shell: bash
       id: args
     - run: echo buildargs "${{ steps.args.outputs.build }}"
