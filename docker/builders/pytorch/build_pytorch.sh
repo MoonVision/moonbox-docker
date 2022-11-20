@@ -20,6 +20,7 @@ build_pytorch ()
   # make version pip compatible
   export PYTORCH_BUILD_VERSION=$(sed -e 's/[a-z].//' version.txt)
   export PYTORCH_BUILD_NUMBER=1
+  export CMAKE_PREFIX_PATH=${CONDA_PREFIX}
   export TORCH_CUDA_ARCH_LIST="3.7;6.1;7.5"
   python setup.py install
   python setup.py bdist_wheel
