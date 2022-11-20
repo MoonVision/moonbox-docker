@@ -2,6 +2,7 @@ ARG baseimage='moonvision/python-base:latest'
 
 FROM $baseimage AS builder
 
+ARG DEBIAN_FRONTEND='noninteractive'
 RUN apt-get update --yes --no-install-recommends \
  && apt-get install --yes gcc g++ checkinstall cmake
 
