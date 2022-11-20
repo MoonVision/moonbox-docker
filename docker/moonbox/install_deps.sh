@@ -2,10 +2,9 @@
 
 set -eo pipefail
 
-echo Install common Python dependencies
-
 apt-get update -y
 
+# some libs are known to upgrade differently within ubuntu LTS vs. debian
 apt-get install --yes --no-install-recommends \
     libass9 \
     libfreetype6 \
@@ -18,8 +17,8 @@ apt-get install --yes --no-install-recommends \
     libxcb-xfixes0 \
     libxcb-shape0 \
     libopus0 \
-    libvpx6 \
-    libx264-160 \
+    'libvpx[0-9]+' \
+    'libx264-[0-9]+' \
     libsdl2-2.0-0 \
     libsndio7.0 \
     libxv1 \
