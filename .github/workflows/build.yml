@@ -35,7 +35,8 @@ jobs:
         additionaltag: cuda
         path: docker/python-base
         dockerfile: docker/python-base/Dockerfile
-        baseimage: mambaorg/micromamba:1-jammy-cuda-11.8.0
+        # 1-jammy dumps core on Ubuntu 20.04 hosts with illegal what() call
+        baseimage: mambaorg/micromamba:1-focal-cuda-11.8.0
   build-ffmpeg:
     runs-on: ubuntu-latest
     steps:
