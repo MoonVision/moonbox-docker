@@ -4,7 +4,7 @@ set -euo pipefail
 
 echo Install Pylon
 
-conda install swig -y
+micromamba install swig -y
 
 curl -o /tmp/pylon.deb https://www.baslerweb.com/fp-1551786503/media/downloads/software/pylon_software/pylon_5.2.0.13457-deb0_amd64.deb
 dpkg -i /tmp/pylon.deb
