@@ -1,4 +1,4 @@
-ARG baseimage='ubuntu:20.04'
+ARG baseimage='debian:bullseye-slim'
 
 FROM $baseimage AS builder
 
@@ -20,7 +20,7 @@ RUN mkdir -p ~/temp \
 RUN cd ~/temp/proxychains \
  && ./configure \
  && make \
- && checkinstall
+ && checkinstall --fstrans=no
 
 # Copy deb to output folder
 RUN mkdir /packages \

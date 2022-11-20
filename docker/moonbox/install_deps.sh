@@ -19,7 +19,7 @@ apt-get install --yes --no-install-recommends \
     libxcb-shape0 \
     libopus0 \
     libvpx6 \
-    libx264-155 \
+    libx264-160 \
     libsdl2-2.0-0 \
     libsndio7.0 \
     libxv1 \

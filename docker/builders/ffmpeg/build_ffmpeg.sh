@@ -8,7 +8,7 @@ if [[ "$WITH_CUDA" == 'true' ]]; then
     tar xf nv-codec-headers-11.0.10.0.tar.gz
     pushd nv-codec-headers-11.0.10.0
     make
-    checkinstall --pkgversion=11.0.10.0
+    checkinstall --pkgversion=11.0.10.0 --fstrans=no
     dpkg -i *.deb
     cp *.deb /packages
     popd
@@ -43,7 +43,7 @@ cat ffbuild/config.log
 
 cd /tmp/ffmpeg_sources/ffmpeg-${FFMPEG_VERSION}
 make
-checkinstall
+checkinstall --fstrans=no
 cp *.deb /packages
 
 find /packages -name '*.deb' -exec 'dpkg -c {}' ';'

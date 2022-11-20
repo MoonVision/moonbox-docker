@@ -47,7 +47,7 @@ jobs:
         tagversion: 4.2.1
         path: docker/builders/ffmpeg
         dockerfile: docker/builders/ffmpeg/Dockerfile
-        baseimage: ubuntu:20.04
+        baseimage: debian:bullseye-slim
         additional_buildargs: ffmpeg_version=4.2.1
   build-ffmpeg-cuda:
     runs-on: ubuntu-latest
@@ -58,7 +58,7 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: ffmpeg-cuda
         tagversion: 4.2.1
-        baseimage: nvidia/cuda:11.0.3-base-ubuntu20.04
+        baseimage: nvidia/cuda:11.8.0-base-ubuntu22.04
         path: docker/builders/ffmpeg
         dockerfile: docker/builders/ffmpeg/Dockerfile
         additional_buildargs: |-
@@ -75,7 +75,7 @@ jobs:
         tagversion: 4.14
         path: docker/builders/proxychains
         dockerfile: docker/builders/proxychains/Dockerfile
-        baseimage: ubuntu:20.04
+        baseimage: debian:bullseye-slim
         additional_buildargs: proxychains_version=4.14
   build-opensc:
     runs-on: ubuntu-latest
@@ -88,7 +88,7 @@ jobs:
         tagversion: 0.20.0
         path: docker/builders/opensc
         dockerfile: docker/builders/opensc/Dockerfile
-        baseimage: ubuntu:20.04
+        baseimage: debian:bullseye-slim
         additional_buildargs: opensc_version=0.20.0
   build-pytorch:
     needs:

@@ -1,4 +1,4 @@
-ARG baseimage='ubuntu:20.04'
+ARG baseimage='debian:bullseye-slim'
 
 FROM ${baseimage} AS builder
 
