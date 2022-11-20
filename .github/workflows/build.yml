@@ -18,7 +18,7 @@ jobs:
   docker-python-base:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}python-base
@@ -28,7 +28,7 @@ jobs:
   docker-python-base-cuda:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}python-base
@@ -39,7 +39,7 @@ jobs:
   build-ffmpeg:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
@@ -52,7 +52,7 @@ jobs:
   build-ffmpeg-cuda:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
@@ -67,7 +67,7 @@ jobs:
   build-proxychains:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
@@ -80,7 +80,7 @@ jobs:
   build-opensc:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
@@ -95,7 +95,7 @@ jobs:
     - docker-python-base
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
@@ -113,7 +113,7 @@ jobs:
     - docker-python-base-cuda
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
@@ -134,7 +134,7 @@ jobs:
     - build-pytorch
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
@@ -152,7 +152,7 @@ jobs:
     - build-pytorch
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
@@ -171,7 +171,7 @@ jobs:
     - build-pytorch
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
@@ -191,7 +191,7 @@ jobs:
     - build-pytorch-cuda
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
