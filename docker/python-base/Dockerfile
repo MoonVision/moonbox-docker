@@ -18,5 +18,9 @@ RUN apt-get update -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
+# Manifest mamba python for exec environments
+ENV CPATH "$MAMBA_ROOT_PREFIX/include"
+ENV PATH "$MAMBA_ROOT_PREFIX/bin:$PATH"
+
 # You may seal production images by running:
 #USER $MAMBA_USER
