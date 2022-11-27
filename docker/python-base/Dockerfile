@@ -22,5 +22,8 @@ RUN apt-get update -y \
 ENV CPATH "$MAMBA_ROOT_PREFIX/include"
 ENV PATH "$MAMBA_ROOT_PREFIX/bin:$PATH"
 
+# adduser template of $MAMBA_USER
+RUN echo "SKEL=/home/$MAMBA_USER" >> /etc/default/useradd
+
 # You may seal production images by running:
 #USER $MAMBA_USER
