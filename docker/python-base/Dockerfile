@@ -41,7 +41,7 @@ RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
     tzdata \
     libglib2.0-0 \
-    wget bzip2 curl git \
+    wget bzip2 curl git procps \
     runit \
   && apt-get purge --autoremove --yes python python3 \
   && apt-get clean \
