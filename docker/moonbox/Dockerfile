@@ -5,7 +5,7 @@ ARG pytorch_from_docker='moonvision/custom-builds:pytorch-1.6.0_torchvision-0.7.
 FROM $ffmpeg_from_docker as ffmpeg_builder
 FROM $pytorch_from_docker as pytorch_builder
 
-FROM ${baseimage}
+FROM ${baseimage} as installer
 
 ARG with_genicam='false'
 ARG with_pylon='false'
@@ -17,3 +17,9 @@ COPY . /bd_build
 
 ARG MAMBA_DOCKERFILE_ACTIVATE=1
 RUN with_genicam=$with_genicam with_pylon=$with_pylon with_cuda=$with_cuda bash /bd_build/install_deps.sh
+
+# squash /packages
+FROM ${baseimage}
+COPY --from=installer / /
+
+RUN echo "ffmpeg codecs: " && ffmpeg -codecs

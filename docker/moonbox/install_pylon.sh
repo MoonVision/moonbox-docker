@@ -15,7 +15,7 @@ curl -o /tmp/pypylon-1.4.0.tar.gz -L https://github.com/basler/pypylon/archive/1
 cd /tmp
 tar xf pypylon-1.4.0.tar.gz
 cd pypylon-1.4.0/
-pip install .
+pip install --no-cache-dir .
 rm -rf /tmp/pypylon-1.4.0.tar.gz /tmp/pypylon-1.4.0/
 apt-get purge --autoremove -y gcc g++
 

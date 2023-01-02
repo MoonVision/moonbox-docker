@@ -27,7 +27,7 @@ apt-get install --yes --no-install-recommends \
 dpkg -i /ffmpeg-packages/*.deb
 rm -rf /ffmpeg-packages
 
-pip install /pytorch-packages/*.whl
+pip install --no-cache-dir /pytorch-packages/*.whl
 rm -rf /pytorch-packages
 
 echo "with_genicam: ${with_genicam}, with_pylon: ${with_pylon}, with_cuda: ${with_cuda}"
@@ -50,9 +50,7 @@ else
     echo 'Skip Cuda'
 fi
 
+micromamba clean -yaf
 rm -rf /var/lib/apt/lists/*
 
 ldconfig
-
-echo "ffmpeg codecs: "
-ffmpeg -codecs
