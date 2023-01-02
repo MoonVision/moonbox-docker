@@ -3,5 +3,6 @@ set -euo pipefail
 
 echo Install Cuda
 
-libnpp_version=$(echo $CUDA_VERSION | sed -e 's/\./-/' -e 's/\..//')
-apt-get install libnpp-$libnpp_version -y --no-install-recommends
+# use conda to skip their apt sources entirely
+# Todo: replace libnpp with scale_cuda https://trac.ffmpeg.org/ticket/6587#comment:1
+micromamba install libnpp -c nvidia
