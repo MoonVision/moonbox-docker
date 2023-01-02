@@ -25,18 +25,6 @@ jobs:
         path: docker/python-base
         dockerfile: docker/python-base/Dockerfile
         baseimage: mambaorg/micromamba:1
-  docker-python-base-cuda:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: ./.github/create-docker
-      with:
-        imagename: moonvision/${{ env.IMAGE_PRE }}python-base
-        additionaltag: cuda
-        path: docker/python-base
-        dockerfile: docker/python-base/Dockerfile
-        # 1-jammy dumps core on Ubuntu 20.04 hosts with illegal what() call
-        baseimage: mambaorg/micromamba:1-focal-cuda-11.8.0
   build-ffmpeg:
     runs-on: ubuntu-latest
     steps:
@@ -48,7 +36,7 @@ jobs:
         tagversion: 4.2.1
         path: docker/builders/ffmpeg
         dockerfile: docker/builders/ffmpeg/Dockerfile
-        baseimage: debian:bullseye-slim
+        baseimage: mambaorg/micromamba:1
         additional_buildargs: ffmpeg_version=4.2.1
   build-ffmpeg-cuda:
     runs-on: ubuntu-latest
@@ -59,7 +47,7 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: ffmpeg-cuda
         tagversion: 4.2.1
-        baseimage: nvidia/cuda:11.8.0-base-ubuntu20.04
+        baseimage: mambaorg/micromamba:1
         path: docker/builders/ffmpeg
         dockerfile: docker/builders/ffmpeg/Dockerfile
         additional_buildargs: |-
@@ -111,7 +99,7 @@ jobs:
           prebuilt=false
   build-pytorch-cuda:
     needs:
-    - docker-python-base-cuda
+    - docker-python-base
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -120,7 +108,7 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: pytorch-cuda
         tagversion: 1.11.0_torchvision-0.12.0
-        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:cuda-latest
+        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base
         path: docker/builders/pytorch
         dockerfile: docker/builders/pytorch/Dockerfile
         additional_buildargs: |-
@@ -187,7 +175,7 @@ jobs:
           pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-1.11.0_torchvision-0.12.0
   docker-moonbox-cuda:
     needs:
-    - docker-python-base-cuda
+    - docker-python-base
     - build-ffmpeg-cuda
     - build-pytorch-cuda
     runs-on: ubuntu-latest
@@ -199,7 +187,7 @@ jobs:
         additionaltag: cuda
         path: docker/moonbox
         dockerfile: docker/moonbox/Dockerfile
-        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:cuda-latest
+        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:latest
         additional_buildargs: |-
           with_genicam=false
           with_pylon=false

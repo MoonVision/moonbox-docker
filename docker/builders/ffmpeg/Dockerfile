@@ -1,7 +1,8 @@
-ARG baseimage='debian:bullseye-slim'
+ARG baseimage='moonvision/python-base:latest'
 
 FROM ${baseimage} AS builder
 
+USER root
 ARG DEBIAN_FRONTEND='noninteractive'
 RUN apt-get update -qq \
  && apt-get -y install \
