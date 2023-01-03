@@ -12,9 +12,9 @@ ARG MAMBA_DOCKERFILE_ACTIVATE=1
 
 ARG prebuilt='false'
 ARG with_cuda='false'
-ARG pytorch_tag='v1.6.0'
+ARG pytorch_tag='v1.11.0'
 RUN /bd_build/build_pytorch.sh
-ARG torchvision_tag='v0.7.0'
+ARG torchvision_tag='v0.12.0'
 RUN /bd_build/build_torchvision.sh
 
 FROM scratch

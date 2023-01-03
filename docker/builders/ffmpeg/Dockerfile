@@ -1,4 +1,4 @@
-ARG baseimage='moonvision/python-base:latest'
+ARG baseimage='mambaorg/micromamba:1'
 
 FROM ${baseimage} AS builder
 
