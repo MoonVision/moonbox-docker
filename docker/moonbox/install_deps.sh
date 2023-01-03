@@ -4,7 +4,6 @@ set -eo pipefail
 
 apt-get update -y
 
-# some libs are known to upgrade differently within ubuntu LTS vs. debian
 apt-get install --yes --no-install-recommends \
     libass9 \
     libfreetype6 \
