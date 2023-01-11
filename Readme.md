@@ -101,7 +101,7 @@ A custom build of [FFmpeg](https://ffmpeg.org).
 ```
 docker build \
   -t moonvision/custom-builds:ffmpeg-latest \
-  --build-arg ffmpeg_version=4.2.1 \ 
+  --build-arg ffmpeg_version=4.2.1 \
   -f docker/builders/ffmpeg/Dockerfile docker/builders/ffmpeg
 ```
 
@@ -110,7 +110,7 @@ docker build \
 ```
 docker build \
   -t moonvision/custom-builds:ffmpeg-cuda-latest \
-  --build-arg ffmpeg_version=4.2.1 \ 
+  --build-arg ffmpeg_version=4.2.1 \
   --build-arg with_cuda=true \
   -f docker/builders/ffmpeg/Dockerfile docker/builders/ffmpeg
 ```
@@ -138,7 +138,7 @@ docker build \
 ```
 docker build \
   -t moonvision/custom-builds:pytorch-cuda-latest \
-  --build-arg with_cuda=true \ 
+  --build-arg with_cuda=true \
   --build-arg prebuilt=true \
   -f docker/builders/pytorch/Dockerfile docker/builders/pytorch
 ```
