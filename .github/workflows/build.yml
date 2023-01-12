@@ -15,62 +15,20 @@ env:
   IMAGE_PRE: ${{ github.ref_name != 'master' && 'dev-' || '' }}
 
 jobs:
-  docker-common-base:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: ./.github/create-docker
-      with:
-        imagename: moonvision/${{ env.IMAGE_PRE }}common-base
-        path: docker/common-base/image
-        dockerfile: docker/common-base/image/Dockerfile
-        baseimage: ubuntu:20.04
-        additional_buildargs: |-
-          disable_ssh=true
-          disable_cron=true
-  docker-common-base-cuda:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: ./.github/create-docker
-      with:
-        imagename: moonvision/${{ env.IMAGE_PRE }}common-base
-        additionaltag: cuda
-        path: docker/common-base/image
-        dockerfile: docker/common-base/image/Dockerfile
-        baseimage: nvidia/cuda:11.0.3-base-ubuntu20.04
-        additional_buildargs: |-
-          disable_ssh=true
-          disable_cron=true
   docker-python-base:
-    needs:
-    - docker-common-base
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}python-base
         path: docker/python-base
         dockerfile: docker/python-base/Dockerfile
-        baseimage: moonvision/${{ env.IMAGE_PRE }}common-base:latest
-  docker-python-base-cuda:
-    needs:
-    - docker-common-base-cuda
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: ./.github/create-docker
-      with:
-        imagename: moonvision/${{ env.IMAGE_PRE }}python-base
-        additionaltag: cuda
-        path: docker/python-base
-        dockerfile: docker/python-base/Dockerfile
-        baseimage: moonvision/${{ env.IMAGE_PRE }}common-base:cuda-latest
+        baseimage: mambaorg/micromamba:1
   build-ffmpeg:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
@@ -78,18 +36,18 @@ jobs:
         tagversion: 4.2.1
         path: docker/builders/ffmpeg
         dockerfile: docker/builders/ffmpeg/Dockerfile
-        baseimage: ubuntu:20.04
+        baseimage: mambaorg/micromamba:1
         additional_buildargs: ffmpeg_version=4.2.1
   build-ffmpeg-cuda:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: ffmpeg-cuda
         tagversion: 4.2.1
-        baseimage: nvidia/cuda:11.0.3-base-ubuntu20.04
+        baseimage: mambaorg/micromamba:1
         path: docker/builders/ffmpeg
         dockerfile: docker/builders/ffmpeg/Dockerfile
         additional_buildargs: |-
@@ -98,7 +56,7 @@ jobs:
   build-proxychains:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
@@ -106,12 +64,12 @@ jobs:
         tagversion: 4.14
         path: docker/builders/proxychains
         dockerfile: docker/builders/proxychains/Dockerfile
-        baseimage: ubuntu:20.04
+        baseimage: debian:bullseye-slim
         additional_buildargs: proxychains_version=4.14
   build-opensc:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
@@ -119,62 +77,45 @@ jobs:
         tagversion: 0.20.0
         path: docker/builders/opensc
         dockerfile: docker/builders/opensc/Dockerfile
-        baseimage: ubuntu:20.04
+        baseimage: debian:bullseye-slim
         additional_buildargs: opensc_version=0.20.0
   build-pytorch:
     needs:
     - docker-python-base
-    - build-cmake
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: pytorch
         tagversion: 1.11.0_torchvision-0.12.0
-        baseimage: ubuntu:20.04
+        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base
         path: docker/builders/pytorch
         dockerfile: docker/builders/pytorch/Dockerfile
         additional_buildargs: |-
-          python_from_docker=moonvision/${{ env.IMAGE_PRE }}python-base
           pytorch_tag=v1.11.0
           torchvision_tag=v0.12.0
           prebuilt=false
   build-pytorch-cuda:
     needs:
-    - docker-python-base-cuda
-    - build-cmake
+    - docker-python-base
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: pytorch-cuda
         tagversion: 1.11.0_torchvision-0.12.0
-        baseimage: nvidia/cuda:11.0.3-base-ubuntu20.04
+        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base
         path: docker/builders/pytorch
         dockerfile: docker/builders/pytorch/Dockerfile
         additional_buildargs: |-
-          python_from_docker=moonvision/${{ env.IMAGE_PRE }}python-base:cuda-latest
           pytorch_tag=v1.11.0
           torchvision_tag=v0.12.0
           prebuilt=true
           with_cuda=true
-  build-cmake:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: ./.github/create-docker
-      with:
-        imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
-        additionaltag: cmake
-        tagversion: 3.15.5
-        path: docker/builders/cmake
-        dockerfile: docker/builders/cmake/Dockerfile
-        baseimage: ubuntu:20.04
-        additional_buildargs: cmake_tag=v3.15.5
   docker-moonbox-mini:
     needs:
     - docker-python-base
@@ -182,7 +123,7 @@ jobs:
     - build-pytorch
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
@@ -200,7 +141,7 @@ jobs:
     - build-pytorch
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
@@ -219,7 +160,7 @@ jobs:
     - build-pytorch
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
@@ -234,19 +175,19 @@ jobs:
           pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-1.11.0_torchvision-0.12.0
   docker-moonbox-cuda:
     needs:
-    - docker-python-base-cuda
+    - docker-python-base
     - build-ffmpeg-cuda
     - build-pytorch-cuda
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
         additionaltag: cuda
         path: docker/moonbox
         dockerfile: docker/moonbox/Dockerfile
-        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:cuda-latest
+        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:latest
         additional_buildargs: |-
           with_genicam=false
           with_pylon=false

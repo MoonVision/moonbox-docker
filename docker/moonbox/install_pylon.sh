@@ -4,7 +4,7 @@ set -euo pipefail
 
 echo Install Pylon
 
-conda install swig -y
+micromamba install swig -y -c conda-forge
 
 curl -o /tmp/pylon.deb https://www.baslerweb.com/fp-1551786503/media/downloads/software/pylon_software/pylon_5.2.0.13457-deb0_amd64.deb
 dpkg -i /tmp/pylon.deb
@@ -15,7 +15,7 @@ curl -o /tmp/pypylon-1.4.0.tar.gz -L https://github.com/basler/pypylon/archive/1
 cd /tmp
 tar xf pypylon-1.4.0.tar.gz
 cd pypylon-1.4.0/
-pip install .
+pip install --no-cache-dir .
 rm -rf /tmp/pypylon-1.4.0.tar.gz /tmp/pypylon-1.4.0/
 apt-get purge --autoremove -y gcc g++
 

@@ -1,4 +1,4 @@
-ARG baseimage='ubuntu:20.04'
+ARG baseimage='debian:bullseye-slim'
 
 FROM $baseimage AS builder
 
@@ -26,7 +26,8 @@ RUN cd ~/temp/opensc \
       --nodoc \
       --pkglicense="lgpl-2.1" \
       --pkgversion=0.20.0 \
-      --requires="libccid,libpcsclite-dev,libreadline-dev,libssl-dev,pcscd,pkg-config,xsltproc"
+      --requires="libccid,libpcsclite-dev,libreadline-dev,libssl-dev,pcscd,pkg-config,xsltproc" \
+      --fstrans=no
 
 # Copy deb to output folder
 RUN mkdir /packages \

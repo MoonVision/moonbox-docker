@@ -2,8 +2,6 @@
 
 set -eo pipefail
 
-echo Install common Python dependencies
-
 apt-get update -y
 
 apt-get install --yes --no-install-recommends \
@@ -18,8 +16,8 @@ apt-get install --yes --no-install-recommends \
     libxcb-xfixes0 \
     libxcb-shape0 \
     libopus0 \
-    libvpx6 \
-    libx264-155 \
+    'libvpx[0-9]+' \
+    'libx264-[0-9]+' \
     libsdl2-2.0-0 \
     libsndio7.0 \
     libxv1 \
@@ -28,7 +26,7 @@ apt-get install --yes --no-install-recommends \
 dpkg -i /ffmpeg-packages/*.deb
 rm -rf /ffmpeg-packages
 
-pip install /pytorch-packages/*.whl
+pip install --no-cache-dir /pytorch-packages/*.whl
 rm -rf /pytorch-packages
 
 echo "with_genicam: ${with_genicam}, with_pylon: ${with_pylon}, with_cuda: ${with_cuda}"
@@ -51,9 +49,7 @@ else
     echo 'Skip Cuda'
 fi
 
+micromamba clean -yaf
 rm -rf /var/lib/apt/lists/*
 
 ldconfig
-
-echo "ffmpeg codecs: "
-ffmpeg -codecs

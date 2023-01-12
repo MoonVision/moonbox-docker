@@ -1,7 +1,8 @@
-ARG baseimage='ubuntu:20.04'
+ARG baseimage='mambaorg/micromamba:1'
 
 FROM ${baseimage} AS builder
 
+USER root
 ARG DEBIAN_FRONTEND='noninteractive'
 RUN apt-get update -qq \
  && apt-get -y install \
