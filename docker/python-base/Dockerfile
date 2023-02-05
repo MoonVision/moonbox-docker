@@ -20,8 +20,8 @@ RUN cd /tmp \
 FROM ${baseimage}
 
 # Install python
-COPY . /bd_build
-RUN micromamba install -y -f /bd_build/environment.yml && \
+COPY --chown=1000:1000 . /home/$MAMBA_USER/bd_build
+RUN micromamba install -y -f /home/$MAMBA_USER/bd_build/environment.yml && \
     micromamba clean -yaf
 
 # Manifest mamba python for exec environments
