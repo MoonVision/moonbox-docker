@@ -26,7 +26,7 @@ apt-get install --yes --no-install-recommends \
 dpkg -i /ffmpeg-packages/*.deb
 rm -rf /ffmpeg-packages
 
-pip install --no-cache-dir /pytorch-packages/*.whl
+pip install --no-cache-dir /pytorch-packages/*.whl -c /bd_build/constraints.txt
 rm -rf /pytorch-packages
 
 echo "with_genicam: ${with_genicam}, with_pylon: ${with_pylon}, with_cuda: ${with_cuda}"
