@@ -21,7 +21,7 @@ RUN cd /tmp \
 FROM ${baseimage}
 
 # Install python
-COPY --chown=1000:1000 . /home/$MAMBA_USER/bd_build
+COPY --chown=$MAMBA_USER:$MAMBA_USER . /home/$MAMBA_USER/bd_build
 RUN micromamba install -y -f /home/$MAMBA_USER/bd_build/environment.yml && \
     micromamba clean -yaf
 
