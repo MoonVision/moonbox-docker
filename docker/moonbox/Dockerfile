@@ -8,7 +8,6 @@ FROM $pytorch_from_docker as pytorch_builder
 FROM ${baseimage} as installer
 
 ARG with_genicam='false'
-ARG with_pylon='false'
 ARG with_cuda='false'
 
 COPY --from=ffmpeg_builder /packages /ffmpeg-packages
@@ -16,7 +15,7 @@ COPY --from=pytorch_builder /packages /pytorch-packages
 COPY . /bd_build
 
 ARG MAMBA_DOCKERFILE_ACTIVATE=1
-RUN with_genicam=$with_genicam with_pylon=$with_pylon with_cuda=$with_cuda bash /bd_build/install_deps.sh
+RUN with_genicam=$with_genicam with_cuda=$with_cuda bash /bd_build/install_deps.sh
 
 # squash /packages
 FROM ${baseimage}
