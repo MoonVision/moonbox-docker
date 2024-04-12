@@ -24,7 +24,7 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}python-base
         path: docker/python-base
         dockerfile: docker/python-base/Dockerfile
-        baseimage: mambaorg/micromamba:1
+        baseimage: mambaorg/micromamba:1-bullseye
   build-ffmpeg:
     runs-on: ubuntu-latest
     steps:
@@ -36,7 +36,7 @@ jobs:
         tagversion: 4.2.1
         path: docker/builders/ffmpeg
         dockerfile: docker/builders/ffmpeg/Dockerfile
-        baseimage: mambaorg/micromamba:1
+        baseimage: mambaorg/micromamba:1-bullseye
         additional_buildargs: ffmpeg_version=4.2.1
   build-ffmpeg-cuda:
     runs-on: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: ffmpeg-cuda
         tagversion: 4.2.1
-        baseimage: mambaorg/micromamba:1
+        baseimage: mambaorg/micromamba:1-bullseye
         path: docker/builders/ffmpeg
         dockerfile: docker/builders/ffmpeg/Dockerfile
         additional_buildargs: |-

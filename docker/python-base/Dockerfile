@@ -1,4 +1,5 @@
-ARG baseimage='mambaorg/micromamba:1.0.0'
+# latest refers to bookworm since Aug 2023, which does not have gcc-10, which is needed for pytorch
+ARG baseimage='mambaorg/micromamba:1.0.0-bullseye'
 
 # Build runit-docker
 FROM ${baseimage} AS build_runit_docker
