@@ -1,4 +1,5 @@
-ARG baseimage='mambaorg/micromamba:1.0.0'
+# latest refers to bookworm since Aug 2023, which does not have gcc-10, which is needed for pytorch
+ARG baseimage='mambaorg/micromamba:1.0.0-bullseye'
 
 # Build runit-docker
 FROM ${baseimage} AS build_runit_docker
@@ -20,7 +21,7 @@ RUN cd /tmp \
 FROM ${baseimage}
 
 # Install python
-COPY --chown=1000:1000 . /home/$MAMBA_USER/bd_build
+COPY --chown=$MAMBA_USER:$MAMBA_USER . /home/$MAMBA_USER/bd_build
 RUN micromamba install -y -f /home/$MAMBA_USER/bd_build/environment.yml && \
     micromamba clean -yaf
 

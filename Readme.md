@@ -20,7 +20,7 @@ Python Base from a [micromamba](https://github.com/mamba-org/mamba#micromamba) e
 
 | Build arg | Default | Description |
 |-|-|-|
-| `baseimage` | `mambaorg/micromamba:1.0.0` | Set baseimage from which python base is built. |
+| `baseimage` | `mambaorg/micromamba:1.0.0-bullseye` | Set baseimage from which python base is built. |
 
 #### Python Base
 
@@ -40,7 +40,6 @@ docker build \
 | `ffmpeg_from_docker` | `moonvision/custom-builds:ffmpeg-4.2.1` | The docker image from which FFmpeg will be installed. |
 | `pytorch_from_docker` | `moonvision/custom-builds:pytorch-1.11.0_torchvision-0.12.0` | The docker image from which PyTorch and Torchvision will be installed. |
 | `with_genicam` | `false` | Whether to install GeniCam harvesters. |
-| `with_pylon` | `false` | Whether to install Basler Pylon. |
 | `with_cuda` | `false` / undefined | If `true` install CUDA specific packages. If defined, set ENV variables to mount nvidia binaries at runtime. |
 
 #### Moonbox Mini
@@ -59,16 +58,6 @@ docker build \
 docker build \
   -t moonvision/moonbox:genicam-latest \
   --build-arg with_genicam=true \
-  -f docker/moonbox/Dockerfile docker/moonbox
-```
-
-#### Moonbox with Basler Pylon
-
-```
-docker build \
-  -t moonvision/moonbox:basler-latest \
-  --build-arg with_genicam=true \
-  --build-arg with_pylon=true \
   -f docker/moonbox/Dockerfile docker/moonbox
 ```
 
@@ -92,7 +81,7 @@ A custom build of [FFmpeg](https://ffmpeg.org).
 
 | Build arg | Default | Description |
 |-|-|-|
-| `baseimage` | `mambaorg/micromamba:1` | Set the image in which FFmpeg will be built. |
+| `baseimage` | `mambaorg/micromamba:1-bullseye` | Set the image in which FFmpeg will be built. |
 | `ffmpeg_version` | | The FFmpeg release version to build. |
 | `with_cuda` | `false` | Whether to build FFmpeg with Nvidia hardware acceleration.  |
 
