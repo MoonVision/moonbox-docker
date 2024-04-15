@@ -20,7 +20,7 @@ Python Base from a [micromamba](https://github.com/mamba-org/mamba#micromamba) e
 
 | Build arg | Default | Description |
 |-|-|-|
-| `baseimage` | `mambaorg/micromamba:1.0.0` | Set baseimage from which python base is built. |
+| `baseimage` | `mambaorg/micromamba:1.0.0-bullseye` | Set baseimage from which python base is built. |
 
 #### Python Base
 
@@ -81,7 +81,7 @@ A custom build of [FFmpeg](https://ffmpeg.org).
 
 | Build arg | Default | Description |
 |-|-|-|
-| `baseimage` | `mambaorg/micromamba:1` | Set the image in which FFmpeg will be built. |
+| `baseimage` | `mambaorg/micromamba:1-bullseye` | Set the image in which FFmpeg will be built. |
 | `ffmpeg_version` | | The FFmpeg release version to build. |
 | `with_cuda` | `false` | Whether to build FFmpeg with Nvidia hardware acceleration.  |
 
