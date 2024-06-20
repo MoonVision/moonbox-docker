@@ -21,6 +21,8 @@ dependencies:
   - requests
   - six
   - typing_extensions
+  # TODO: Try to unpin setuptools after upgrading pytorch
+  - setuptools=69.5.1
   - pip
   - pip:
     - opencv-contrib-python-headless==4.2.0.34
