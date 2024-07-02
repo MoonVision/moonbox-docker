@@ -22,7 +22,8 @@ FROM ${baseimage}
 
 # Install python
 COPY --chown=$MAMBA_USER:$MAMBA_USER . /home/$MAMBA_USER/bd_build
-RUN micromamba install -y -f /home/$MAMBA_USER/bd_build/environment.yml && \
+ARG env_file='environment.yml'
+RUN micromamba install -y -f /home/$MAMBA_USER/bd_build/$env_file && \
     micromamba clean -yaf
 
 # Manifest mamba python for exec environments

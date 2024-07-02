@@ -3,8 +3,9 @@ ARG baseimage='moonvision/python-base:latest'
 FROM $baseimage AS builder
 
 ARG DEBIAN_FRONTEND='noninteractive'
+ # fixme: Why should gcc be installed both here and in python-base? And the same for checkinstall.
 RUN apt-get update --yes --no-install-recommends \
- && apt-get install --yes gcc g++ checkinstall cmake
+ && apt-get install --yes gcc g++ checkinstall cmake --no-install-recommends
 
 COPY . /bd_build
 
