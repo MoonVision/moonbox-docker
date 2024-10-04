@@ -105,6 +105,24 @@ jobs:
           pytorch_tag=v1.11.0
           torchvision_tag=v0.12.0
           prebuilt=false
+  build-pytorch-310:
+    needs:
+      - docker-python-base
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/create-docker
+        with:
+          imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
+          additionaltag: pytorch-3.10
+          tagversion: 1.13.1_torchvision-0.14.1
+          baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:3.10-latest
+          path: docker/builders/pytorch
+          dockerfile: docker/builders/pytorch/Dockerfile
+          additional_buildargs: |-
+            pytorch_tag=v1.13.1
+            torchvision_tag=v0.14.1
+            prebuilt=false
   build-pytorch-cuda:
     needs:
     - docker-python-base
@@ -122,6 +140,25 @@ jobs:
         additional_buildargs: |-
           pytorch_tag=v1.11.0
           torchvision_tag=v0.12.0
+          prebuilt=true
+          with_cuda=true
+  build-pytorch-cuda-310:
+    needs:
+    - docker-python-base
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./.github/create-docker
+      with:
+        imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
+        additionaltag: pytorch-cuda-3.10
+        tagversion: 1.13.1_torchvision-0.14.1
+        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:3.10-latest
+        path: docker/builders/pytorch
+        dockerfile: docker/builders/pytorch/Dockerfile
+        additional_buildargs: |-
+          pytorch_tag=v1.13.1
+          torchvision_tag=v0.14.1
           prebuilt=true
           with_cuda=true
   docker-moonbox-mini:
