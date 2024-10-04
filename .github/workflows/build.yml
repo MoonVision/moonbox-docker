@@ -31,7 +31,7 @@ jobs:
         path: docker/python-base
         dockerfile: docker/python-base/Dockerfile
         baseimage: mambaorg/micromamba:1-bullseye
-        additionaltag: 3.10
+        additionaltag: '3.10'
         additional_buildargs: env_file=environment_3.10.yml
   build-ffmpeg:
     runs-on: ubuntu-latest
