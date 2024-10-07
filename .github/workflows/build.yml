@@ -25,6 +25,14 @@ jobs:
         path: docker/python-base
         dockerfile: docker/python-base/Dockerfile
         baseimage: mambaorg/micromamba:1-bullseye
+    - uses: ./.github/create-docker
+      with:
+        imagename: moonvision/${{ env.IMAGE_PRE }}python-base
+        path: docker/python-base
+        dockerfile: docker/python-base/Dockerfile
+        baseimage: mambaorg/micromamba:1-bullseye
+        additionaltag: 3.9
+        additional_buildargs: env_file=environment_3.9.yml
   build-ffmpeg:
     runs-on: ubuntu-latest
     steps:
