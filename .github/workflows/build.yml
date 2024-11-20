@@ -97,13 +97,13 @@ jobs:
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: pytorch
-        tagversion: 1.11.0_torchvision-0.12.0
+        tagversion: 2.0.1_torchvision-0.15.2
         baseimage: moonvision/${{ env.IMAGE_PRE }}python-base
         path: docker/builders/pytorch
         dockerfile: docker/builders/pytorch/Dockerfile
         additional_buildargs: |-
-          pytorch_tag=v1.11.0
-          torchvision_tag=v0.12.0
+          pytorch_tag=v2.0.1
+          torchvision_tag=v0.15.2
           prebuilt=false
   build-pytorch-311:
     needs:
@@ -133,13 +133,13 @@ jobs:
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: pytorch-cuda
-        tagversion: 1.11.0_torchvision-0.12.0
+        tagversion: 2.0.1_torchvision-0.15.2
         baseimage: moonvision/${{ env.IMAGE_PRE }}python-base
         path: docker/builders/pytorch
         dockerfile: docker/builders/pytorch/Dockerfile
         additional_buildargs: |-
-          pytorch_tag=v1.11.0
-          torchvision_tag=v0.12.0
+          pytorch_tag=v2.0.1
+          torchvision_tag=v0.15.2
           prebuilt=true
           with_cuda=true
   build-pytorch-cuda-311:
@@ -178,7 +178,7 @@ jobs:
         baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:latest
         additional_buildargs: |-
           ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
-          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-1.11.0_torchvision-0.12.0
+          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-2.0.1_torchvision-0.15.2
   docker-moonbox-mini-311:
     needs:
       - docker-python-base
@@ -215,7 +215,7 @@ jobs:
         additional_buildargs: |-
           with_genicam=true
           ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
-          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-1.11.0_torchvision-0.12.0
+          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-2.0.1_torchvision-0.15.2
   docker-moonbox-genicam-311:
     needs:
       - docker-python-base
@@ -254,7 +254,7 @@ jobs:
           with_genicam=false
           with_cuda=true
           ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-cuda-4.2.1
-          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-cuda-1.11.0_torchvision-0.12.0
+          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-cuda-2.0.1_torchvision-0.15.2
   docker-moonbox-cuda-311:
     needs:
     - docker-python-base
