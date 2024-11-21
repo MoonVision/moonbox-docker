@@ -123,6 +123,34 @@ jobs:
           pytorch_tag=v2.0.1
           torchvision_tag=v0.15.2
           prebuilt=false
+  build-pytorch-stripped:
+    needs:
+      - docker-python-base
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/create-docker
+        with:
+          imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
+          additionaltag: pytorch-stripped
+          tagversion: 1.11.0_torchvision-0.12.0
+          baseimage: moonvision/${{ env.IMAGE_PRE }}python-base
+          path: docker/builders/pytorch
+          dockerfile: docker/builders/pytorch/DockerfileStripped
+  build-pytorch-stripped-311:
+    needs:
+      - docker-python-base
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/create-docker
+        with:
+          imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
+          additionaltag: pytorch-stripped-3.11
+          tagversion: 2.0.1_torchvision-0.15.2
+          baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:3.11-latest
+          path: docker/builders/pytorch
+          dockerfile: docker/builders/pytorch/DockerfileStripped
   build-pytorch-cuda:
     needs:
     - docker-python-base
@@ -279,7 +307,7 @@ jobs:
     needs:
     - docker-python-base
     - build-ffmpeg
-    - build-pytorch
+    - build-pytorch-stripped
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -292,12 +320,12 @@ jobs:
         baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:latest
         additional_buildargs: |-
           ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
-          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-1.11.0_torchvision-0.12.0
+          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-stripped-1.11.0_torchvision-0.12.0
   docker-moonbox-mini-stripped-311:
     needs:
       - docker-python-base
       - build-ffmpeg
-      - build-pytorch-311
+      - build-pytorch-stripped-311
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -310,12 +338,12 @@ jobs:
           baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:3.11-latest
           additional_buildargs: |-
             ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
-            pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-3.11-2.0.1_torchvision-0.15.2
+            pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-stripped-3.11-2.0.1_torchvision-0.15.2
   docker-moonbox-cuda-stripped:
     needs:
     - docker-python-base
     - build-ffmpeg-cuda
-    - build-pytorch-cuda
+    - build-pytorch-stripped
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -329,12 +357,12 @@ jobs:
         additional_buildargs: |-
           with_cuda=true
           ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-cuda-4.2.1
-          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-cuda-1.11.0_torchvision-0.12.0
+          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-stripped-1.11.0_torchvision-0.12.0
   docker-moonbox-cuda-stripped-311:
     needs:
     - docker-python-base
     - build-ffmpeg-cuda
-    - build-pytorch-cuda-311
+    - build-pytorch-stripped-311
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -348,4 +376,4 @@ jobs:
         additional_buildargs: |-
           with_cuda=true
           ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-cuda-4.2.1
-          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-cuda-3.11-2.0.1_torchvision-0.15.2
+          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-stripped-3.11-2.0.1_torchvision-0.15.2

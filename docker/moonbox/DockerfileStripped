@@ -1,6 +1,6 @@
 ARG baseimage='moonvision/python-base'
 ARG ffmpeg_from_docker='moonvision/custom-builds:ffmpeg-4.2.1'
-ARG pytorch_from_docker='moonvision/custom-builds:pytorch-1.11.0_torchvision-0.12.0'
+ARG pytorch_from_docker='moonvision/custom-builds:pytorch-stripped-1.11.0_torchvision-0.12.0'
 
 FROM $ffmpeg_from_docker as ffmpeg_builder
 FROM $pytorch_from_docker as pytorch_builder
@@ -10,7 +10,6 @@ FROM ${baseimage} as installer
 ARG with_cuda='false'
 
 COPY --from=ffmpeg_builder /packages /ffmpeg-packages
-COPY --from=pytorch_builder /packages /pytorch-packages
 COPY . /bd_build
 
 ARG MAMBA_DOCKERFILE_ACTIVATE=1
