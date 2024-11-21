@@ -1,4 +1,4 @@
-ARG baseimage='moonvision/python-base-stripped'
+ARG baseimage='moonvision/python-base:stripped-latest'
 ARG ffmpeg_from_docker='moonvision/custom-builds:ffmpeg-4.2.1'
 
 FROM $ffmpeg_from_docker as ffmpeg_builder
