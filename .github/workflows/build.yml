@@ -216,44 +216,6 @@ jobs:
           additional_buildargs: |-
             ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
             pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-3.11-2.0.1_torchvision-0.15.2
-  docker-moonbox-genicam:
-    needs:
-    - docker-python-base
-    - build-ffmpeg
-    - build-pytorch
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: ./.github/create-docker
-      with:
-        imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
-        additionaltag: genicam
-        path: docker/moonbox
-        dockerfile: docker/moonbox/Dockerfile
-        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:latest
-        additional_buildargs: |-
-          with_genicam=true
-          ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
-          pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-2.0.1_torchvision-0.15.2
-  docker-moonbox-genicam-311:
-    needs:
-      - docker-python-base
-      - build-ffmpeg
-      - build-pytorch-311
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/create-docker
-        with:
-          imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
-          additionaltag: genicam-3.11
-          path: docker/moonbox
-          dockerfile: docker/moonbox/Dockerfile
-          baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:3.11-latest
-          additional_buildargs: |-
-            with_genicam=true
-            ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
-            pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-3.11-2.0.1_torchvision-0.15.2
   docker-moonbox-cuda:
     needs:
     - docker-python-base

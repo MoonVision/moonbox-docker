@@ -29,14 +29,6 @@ rm -rf /ffmpeg-packages
 pip install --no-cache-dir /pytorch-packages/*.whl -c /bd_build/constraints.txt
 rm -rf /pytorch-packages
 
-echo "with_genicam: ${with_genicam}, with_cuda: ${with_cuda}"
-
-if test "$with_genicam" = "true"; then
-    bash /bd_build/install_genicam.sh
-else
-    echo 'Skip GeniCam'
-fi
-
 if test "$with_cuda" = "true"; then
     bash /bd_build/install_cuda.sh
 else
