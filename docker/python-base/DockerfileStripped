@@ -38,7 +38,7 @@ USER root
 RUN echo "SKEL=/home/$MAMBA_USER" >> /etc/default/useradd
 
 # Install uv
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+RUN wget -qO- https://astral.sh/uv/install.sh | sh
 
 # Install other tools
 ARG DEBIAN_FRONTEND=noninteractive
