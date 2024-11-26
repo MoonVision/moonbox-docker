@@ -123,7 +123,7 @@ jobs:
         additional_buildargs: |-
           pytorch_tag=v2.0.1
           torchvision_tag=v0.15.2
-          prebuilt=false
+          prebuilt=true
   build-pytorch-311:
     needs:
     - docker-python-base
@@ -141,7 +141,7 @@ jobs:
         additional_buildargs: |-
           pytorch_tag=v2.0.1
           torchvision_tag=v0.15.2
-          prebuilt=false
+          prebuilt=true
   build-pytorch-cuda:
     needs:
     - docker-python-base
