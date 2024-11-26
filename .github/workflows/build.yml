@@ -101,11 +101,11 @@ jobs:
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: opensc
-        tagversion: 0.20.0
+        tagversion: 0.23.0
         path: docker/builders/opensc
         dockerfile: docker/builders/opensc/Dockerfile
         baseimage: debian:bookworm-slim
-        additional_buildargs: opensc_version=0.20.0
+        additional_buildargs: opensc_version=0.23.0
   build-pytorch:
     needs:
     - docker-python-base

@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y autoconf automake build-essential \
     checkinstall docbook-xsl libccid libpcsclite-dev libreadline-dev \
     libssl-dev libtool pcscd pkg-config wget xsltproc
 
-ARG opensc_version=0.20.0
+ARG opensc_version=0.23.0
 
 # Fetch Tarball
 RUN mkdir -p ~/temp \
