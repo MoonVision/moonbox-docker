@@ -24,13 +24,13 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}python-base
         path: docker/python-base
         dockerfile: docker/python-base/Dockerfile
-        baseimage: mambaorg/micromamba:1-bullseye
+        baseimage: mambaorg/micromamba:1
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}python-base
         path: docker/python-base
         dockerfile: docker/python-base/Dockerfile
-        baseimage: mambaorg/micromamba:1-bullseye
+        baseimage: mambaorg/micromamba:1
         additionaltag: 3.11
         additional_buildargs: env_file=environment_3.11.yml
   docker-python-base-stripped:
@@ -42,14 +42,14 @@ jobs:
           imagename: moonvision/${{ env.IMAGE_PRE }}python-base
           path: docker/python-base
           dockerfile: docker/python-base/DockerfileStripped
-          baseimage: mambaorg/micromamba:1-bullseye
+          baseimage: mambaorg/micromamba:1
           additionaltag: stripped
       - uses: ./.github/create-docker
         with:
           imagename: moonvision/${{ env.IMAGE_PRE }}python-base
           path: docker/python-base
           dockerfile: docker/python-base/DockerfileStripped
-          baseimage: mambaorg/micromamba:1-bullseye
+          baseimage: mambaorg/micromamba:1
           additionaltag: stripped-3.11
           additional_buildargs: env_file=environment_stripped_3.11.yml
   build-ffmpeg:
@@ -63,7 +63,7 @@ jobs:
         tagversion: 4.2.1
         path: docker/builders/ffmpeg
         dockerfile: docker/builders/ffmpeg/Dockerfile
-        baseimage: mambaorg/micromamba:1-bullseye
+        baseimage: mambaorg/micromamba:1
         additional_buildargs: ffmpeg_version=4.2.1
   build-ffmpeg-cuda:
     runs-on: ubuntu-latest
@@ -74,7 +74,7 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
         additionaltag: ffmpeg-cuda
         tagversion: 4.2.1
-        baseimage: mambaorg/micromamba:1-bullseye
+        baseimage: mambaorg/micromamba:1
         path: docker/builders/ffmpeg
         dockerfile: docker/builders/ffmpeg/Dockerfile
         additional_buildargs: |-
@@ -91,7 +91,7 @@ jobs:
         tagversion: 4.14
         path: docker/builders/proxychains
         dockerfile: docker/builders/proxychains/Dockerfile
-        baseimage: debian:bullseye-slim
+        baseimage: debian:bookworm-slim
         additional_buildargs: proxychains_version=4.14
   build-opensc:
     runs-on: ubuntu-latest
@@ -104,7 +104,7 @@ jobs:
         tagversion: 0.20.0
         path: docker/builders/opensc
         dockerfile: docker/builders/opensc/Dockerfile
-        baseimage: debian:bullseye-slim
+        baseimage: debian:bookworm-slim
         additional_buildargs: opensc_version=0.20.0
   build-pytorch:
     needs:

@@ -1,4 +1,4 @@
-ARG baseimage='debian:bullseye-slim'
+ARG baseimage='debian:bookworm-slim'
 
 FROM $baseimage AS builder
 
