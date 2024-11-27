@@ -44,6 +44,7 @@ jobs:
           dockerfile: docker/python-base/DockerfileStripped
           baseimage: mambaorg/micromamba:1
           additionaltag: stripped
+          additional_buildargs: python_version=3.8
       - uses: ./.github/create-docker
         with:
           imagename: moonvision/${{ env.IMAGE_PRE }}python-base
@@ -51,7 +52,9 @@ jobs:
           dockerfile: docker/python-base/DockerfileStripped
           baseimage: mambaorg/micromamba:1
           additionaltag: stripped-3.11
-          additional_buildargs: env_file=environment_stripped_3.11.yml
+          additional_buildargs: |-
+            env_file=environment_stripped_3.11.yml
+            python_version=3.11
   build-ffmpeg:
     runs-on: ubuntu-latest
     steps:

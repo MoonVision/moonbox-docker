@@ -10,4 +10,3 @@ dependencies:
   # implementation, see: https://conda-forge.org/docs/maintainer/knowledge_base.html#blas
   # it doesn't constrain the libblas version (1st *), but the build string to end in 'mkl' (2nd *)
   - libblas=*=*mkl
-  - python=3.8

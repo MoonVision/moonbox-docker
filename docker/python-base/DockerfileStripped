@@ -21,8 +21,7 @@ FROM ${baseimage}
 
 # Install python
 COPY --chown=$MAMBA_USER:$MAMBA_USER . /home/$MAMBA_USER/bd_build
-ARG env_file='environment_stripped.yml'
-RUN micromamba install -y -f /home/$MAMBA_USER/bd_build/$env_file && \
+RUN micromamba install -y -f /home/$MAMBA_USER/bd_build/environment_stripped.yml && \
     micromamba clean -yaf
 
 # Manifest mamba python for exec environments
@@ -52,6 +51,8 @@ RUN apt-get update -y \
 ADD https://astral.sh/uv/install.sh /uv-installer.sh
 RUN sh /uv-installer.sh && rm /uv-installer.sh
 ENV PATH="/root/.local/bin/:$PATH"
+ARG python_version
+RUN uv python install $python_version
 
 # Install runit-docker
 COPY --from=build_runit_docker /packages /packages
