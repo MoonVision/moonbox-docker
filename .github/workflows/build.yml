@@ -33,7 +33,7 @@ jobs:
         baseimage: mambaorg/micromamba:1
         additionaltag: 3.11
         additional_buildargs: env_file=environment_3.11.yml
-  docker-python-base-stripped:
+  docker-python-base-uv:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -41,19 +41,19 @@ jobs:
         with:
           imagename: moonvision/${{ env.IMAGE_PRE }}python-base
           path: docker/python-base
-          dockerfile: docker/python-base/DockerfileStripped
+          dockerfile: docker/python-base/DockerfileUV
           baseimage: mambaorg/micromamba:1
-          additionaltag: stripped
+          additionaltag: uv
           additional_buildargs: python_version=3.8
       - uses: ./.github/create-docker
         with:
           imagename: moonvision/${{ env.IMAGE_PRE }}python-base
           path: docker/python-base
-          dockerfile: docker/python-base/DockerfileStripped
+          dockerfile: docker/python-base/DockerfileUV
           baseimage: mambaorg/micromamba:1
-          additionaltag: stripped-3.11
+          additionaltag: uv-3.11
           additional_buildargs: |-
-            env_file=environment_stripped_3.11.yml
+            env_file=environment_uv.yml
             python_version=3.11
   build-ffmpeg:
     runs-on: ubuntu-latest
@@ -259,9 +259,9 @@ jobs:
           with_cuda=true
           ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-cuda-4.2.1
           pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-cuda-3.11-2.0.1_torchvision-0.15.2
-  docker-moonbox-mini-stripped:
+  docker-moonbox-mini-uv:
     needs:
-    - docker-python-base-stripped
+    - docker-python-base-uv
     - build-ffmpeg
     runs-on: ubuntu-latest
     steps:
@@ -269,15 +269,15 @@ jobs:
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
-        additionaltag: mini-stripped
+        additionaltag: mini-uv
         path: docker/moonbox
-        dockerfile: docker/moonbox/DockerfileStripped
-        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:stripped-latest
+        dockerfile: docker/moonbox/DockerfileUV
+        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:uv-latest
         additional_buildargs: |-
           ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
-  docker-moonbox-mini-stripped-311:
+  docker-moonbox-mini-uv-311:
     needs:
-      - docker-python-base-stripped
+      - docker-python-base-uv
       - build-ffmpeg
     runs-on: ubuntu-latest
     steps:
@@ -285,15 +285,15 @@ jobs:
       - uses: ./.github/create-docker
         with:
           imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
-          additionaltag: mini-stripped-3.11
+          additionaltag: mini-uv-3.11
           path: docker/moonbox
-          dockerfile: docker/moonbox/DockerfileStripped
-          baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:stripped-3.11-latest
+          dockerfile: docker/moonbox/DockerfileUV
+          baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:uv-3.11-latest
           additional_buildargs: |-
             ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
-  docker-moonbox-cuda-stripped:
+  docker-moonbox-cuda-uv:
     needs:
-    - docker-python-base-stripped
+    - docker-python-base-uv
     - build-ffmpeg-cuda
     runs-on: ubuntu-latest
     steps:
@@ -301,16 +301,16 @@ jobs:
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
-        additionaltag: cuda-stripped
+        additionaltag: cuda-uv
         path: docker/moonbox
-        dockerfile: docker/moonbox/DockerfileStripped
-        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:stripped-latest
+        dockerfile: docker/moonbox/DockerfileUV
+        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:uv-latest
         additional_buildargs: |-
           with_cuda=true
           ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-cuda-4.2.1
-  docker-moonbox-cuda-stripped-311:
+  docker-moonbox-cuda-uv-311:
     needs:
-    - docker-python-base-stripped
+    - docker-python-base-uv
     - build-ffmpeg-cuda
     runs-on: ubuntu-latest
     steps:
@@ -318,10 +318,10 @@ jobs:
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
-        additionaltag: cuda-stripped-3.11
+        additionaltag: cuda-uv-3.11
         path: docker/moonbox
-        dockerfile: docker/moonbox/DockerfileStripped
-        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:stripped-3.11-latest
+        dockerfile: docker/moonbox/DockerfileUV
+        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:uv-3.11-latest
         additional_buildargs: |-
           with_cuda=true
           ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-cuda-4.2.1

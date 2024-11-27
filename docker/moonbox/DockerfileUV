@@ -1,4 +1,4 @@
-ARG baseimage='moonvision/python-base:stripped-latest'
+ARG baseimage='moonvision/python-base:uv-latest'
 ARG ffmpeg_from_docker='moonvision/custom-builds:ffmpeg-4.2.1'
 
 FROM $ffmpeg_from_docker as ffmpeg_builder
@@ -16,7 +16,7 @@ COPY --from=ffmpeg_builder /packages /ffmpeg-packages
 COPY . /bd_build
 
 ARG MAMBA_DOCKERFILE_ACTIVATE=1
-RUN with_cuda=$with_cuda bash /bd_build/install_deps_stripped.sh
+RUN with_cuda=$with_cuda bash /bd_build/install_deps_uv.sh
 
 # squash /packages
 FROM ${baseimage}
