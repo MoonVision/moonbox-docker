@@ -53,6 +53,8 @@ RUN sh /uv-installer.sh && rm /uv-installer.sh
 ENV PATH="/root/.local/bin/:$PATH"
 ARG python_version
 RUN uv python install $python_version
+# Without this you will have to pass `--no-sync` for each `uv run` call, because it will try to install dev requirements otherwise
+ENV UV_NO_SYNC=1
 
 # Install runit-docker
 COPY --from=build_runit_docker /packages /packages
