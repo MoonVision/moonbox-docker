@@ -51,13 +51,14 @@ RUN apt-get update -y \
 ADD https://astral.sh/uv/install.sh /uv-installer.sh
 RUN sh /uv-installer.sh && rm /uv-installer.sh
 ENV PATH="/root/.local/bin/:$PATH"
-ARG python_version
-RUN uv python install $python_version
 # Without this you will have to pass `--no-sync` for each `uv run` call, because it will try to install dev requirements otherwise
 ENV UV_NO_SYNC=true
 # Next two are needed, because otherwise uv cannot find certificates
 ENV UV_NATIVE_TLS=true
 ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+# Install python
+ARG python_version
+RUN uv python install --no-cache $python_version
 
 # Install runit-docker
 COPY --from=build_runit_docker /packages /packages
