@@ -39,7 +39,6 @@ docker build \
 | `baseimage` | `moonvision/python-base` | Set the baseimage from which moonbox is built. |
 | `ffmpeg_from_docker` | `moonvision/custom-builds:ffmpeg-4.2.1` | The docker image from which FFmpeg will be installed. |
 | `pytorch_from_docker` | `moonvision/custom-builds:pytorch-1.11.0_torchvision-0.12.0` | The docker image from which PyTorch and Torchvision will be installed. |
-| `with_genicam` | `false` | Whether to install GeniCam harvesters. |
 | `with_cuda` | `false` / undefined | If `true` install CUDA specific packages. If defined, set ENV variables to mount nvidia binaries at runtime. |
 
 #### Moonbox Mini
@@ -49,15 +48,6 @@ Moonbox Mini is the most lightweight Moonbox version. It includes Python, a coup
 ```
 docker build \
   -t moonvision/moonbox:mini-latest \
-  -f docker/moonbox/Dockerfile docker/moonbox
-```
-
-#### Moonbox with GeniCam
-
-```
-docker build \
-  -t moonvision/moonbox:genicam-latest \
-  --build-arg with_genicam=true \
   -f docker/moonbox/Dockerfile docker/moonbox
 ```
 
