@@ -1,4 +1,4 @@
-ARG baseimage='mambaorg/micromamba:1-bullseye'
+ARG baseimage='mambaorg/micromamba:1'
 
 FROM ${baseimage} AS builder
 
