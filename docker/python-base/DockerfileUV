@@ -32,6 +32,8 @@ FROM preparation_stage
 
 USER root
 
+SHELL ["/bin/bash", "-c"]
+
 # Install other tools
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y \
