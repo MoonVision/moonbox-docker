@@ -1,7 +1,17 @@
-ARG baseimage='mambaorg/micromamba:1.0.0'
+# This stage is copied from mambaorg/micromamba Dockerfile and contains everything except the actual micromamba stuff
+FROM debian:12-slim AS preparation_stage
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+ARG CERT_SOURCE='/etc/ssl/certs/ca-certificates.crt'
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+ENV ENV_NAME="base"
+
+# Default command for "docker run"
+CMD ["/bin/bash"]
 
 # Build runit-docker
-FROM ${baseimage} AS build_runit_docker
+FROM preparation_stage AS build_runit_docker
 
 USER root
 
@@ -17,23 +27,9 @@ RUN cd /tmp \
  && mkdir /packages \
  && mv *.deb /packages
 
-FROM ${baseimage}
-
-# Install python
-COPY --chown=$MAMBA_USER:$MAMBA_USER . /home/$MAMBA_USER/bd_build
-RUN micromamba install -y -f /home/$MAMBA_USER/bd_build/environment_uv.yml && \
-    micromamba clean -yaf
-
-# Manifest mamba python for exec environments
-ENV CPATH "$MAMBA_ROOT_PREFIX/include"
-ENV PATH "$MAMBA_ROOT_PREFIX/bin:$PATH"
+FROM preparation_stage
 
 USER root
-# You may seal production images by running:
-#USER $MAMBA_USER
-
-# adduser template of $MAMBA_USER
-RUN echo "SKEL=/home/$MAMBA_USER" >> /etc/default/useradd
 
 # Install other tools
 ARG DEBIAN_FRONTEND=noninteractive
