@@ -14,7 +14,6 @@ CMD ["/bin/bash"]
 # Build runit-docker
 FROM preparation_stage AS build_runit_docker
 
-USER root
 
 RUN apt-get update \
  && apt-get install -y curl make gcc libc-dev checkinstall --no-install-recommends \
