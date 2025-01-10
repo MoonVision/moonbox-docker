@@ -29,12 +29,13 @@ rm -rf /ffmpeg-packages
 echo "with_cuda: ${with_cuda}"
 
 if test "$with_cuda" = "true"; then
-    bash /bd_build/install_cuda.sh
+    echo "deb http://ftp.de.debian.org/debian bookworm main non-free" | tee /etc/apt/sources.list.d/docker.list
+    apt-get update
+    apt-get install -y --no-install-recommends libnppc11
 else
     echo 'Skip Cuda'
 fi
 
-micromamba clean -yaf
 rm -rf /var/lib/apt/lists/*
 
 ldconfig

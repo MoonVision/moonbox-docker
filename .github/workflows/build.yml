@@ -42,7 +42,6 @@ jobs:
           imagename: moonvision/${{ env.IMAGE_PRE }}python-base
           path: docker/python-base
           dockerfile: docker/python-base/DockerfileUV
-          baseimage: mambaorg/micromamba:1
           additionaltag: uv
           additional_buildargs: python_version=3.8
       - uses: ./.github/create-docker
@@ -50,10 +49,8 @@ jobs:
           imagename: moonvision/${{ env.IMAGE_PRE }}python-base
           path: docker/python-base
           dockerfile: docker/python-base/DockerfileUV
-          baseimage: mambaorg/micromamba:1
           additionaltag: uv-3.11
           additional_buildargs: |-
-            env_file=environment_uv.yml
             python_version=3.11
   build-ffmpeg:
     runs-on: ubuntu-latest
