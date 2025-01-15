@@ -1,6 +1,6 @@
 ARG python_version
 # This stage is copied from mambaorg/micromamba Dockerfile and contains everything except the actual micromamba stuff
-FROM python:${python_version}-slim-bookworm AS preparation_stage
+FROM ghcr.io/astral-sh/uv:python${python_version}-bookworm-slim AS preparation_stage
 RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
@@ -42,18 +42,15 @@ RUN apt-get update -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-# Install uv
-ADD https://astral.sh/uv/install.sh /uv-installer.sh
-RUN sh /uv-installer.sh && rm /uv-installer.sh
-ENV PATH="/root/.local/bin/:$PATH"
+# Configure uv
 # We use python base image so that we didn't have to run `uv run python` all the time
 # This version should be preferred
-ENV UV_PYTHON_PREFERENCE=system
-# Without this you will have to pass `--no-sync` for each `uv run` call, because it will try to install dev requirements otherwise
-ENV UV_NO_SYNC=true
-# Next two are needed, because otherwise uv cannot find certificates
-ENV UV_NATIVE_TLS=true
-ENV SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
+ENV UV_PYTHON_PREFERENCE=system \
+    # Without this you will have to pass `--no-sync` for each `uv run` call, because it will try to install dev requirements otherwise
+    UV_NO_SYNC=true \
+    # Next two are needed, because otherwise uv cannot find certificates
+    UV_NATIVE_TLS=true \
+    SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
 # Install runit-docker
 COPY --from=build_runit_docker /packages /packages
