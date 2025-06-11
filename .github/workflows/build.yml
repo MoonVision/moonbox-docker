@@ -168,13 +168,13 @@ jobs:
         with:
           imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
           additionaltag: pytorch-3.13
-          tagversion: 2.6.0_torchvision-0.15.2
+          tagversion: 2.6.0_torchvision-0.21.0
           baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:3.13-latest
           path: docker/builders/pytorch
           dockerfile: docker/builders/pytorch/Dockerfile
           additional_buildargs: |-
             pytorch_tag=v2.6.0
-            torchvision_tag=v0.15.2
+            torchvision_tag=v0.21.0
             prebuilt=true
   build-pytorch-cuda:
     needs:
@@ -224,13 +224,13 @@ jobs:
         with:
           imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
           additionaltag: pytorch-cuda-3.13
-          tagversion: 2.6.0_torchvision-0.15.2
+          tagversion: 2.6.0_torchvision-0.21.0
           baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:3.13-latest
           path: docker/builders/pytorch
           dockerfile: docker/builders/pytorch/Dockerfile
           additional_buildargs: |-
             pytorch_tag=v2.6.0
-            torchvision_tag=v0.15.2
+            torchvision_tag=v0.21.0
             prebuilt=true
             with_cuda=true
   docker-moonbox-mini:
@@ -286,7 +286,7 @@ jobs:
           baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:3.13-latest
           additional_buildargs: |-
             ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
-            pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-3.13-2.0.1_torchvision-0.15.2
+            pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-3.13-2.6.0_torchvision-0.21.0
   docker-moonbox-cuda:
     needs:
     - docker-python-base
@@ -343,7 +343,7 @@ jobs:
           additional_buildargs: |-
             with_cuda=true
             ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-cuda-4.2.1
-            pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-cuda-3.13-2.0.1_torchvision-0.15.2
+            pytorch_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:pytorch-cuda-3.13-2.6.0_torchvision-0.21.0
   docker-moonbox-mini-uv:
     needs:
     - docker-python-base-uv
