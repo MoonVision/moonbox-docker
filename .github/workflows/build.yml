@@ -168,12 +168,12 @@ jobs:
         with:
           imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
           additionaltag: pytorch-3.13
-          tagversion: 2.0.1_torchvision-0.15.2
+          tagversion: 2.6.0_torchvision-0.15.2
           baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:3.13-latest
           path: docker/builders/pytorch
           dockerfile: docker/builders/pytorch/Dockerfile
           additional_buildargs: |-
-            pytorch_tag=v2.0.1
+            pytorch_tag=v2.6.0
             torchvision_tag=v0.15.2
             prebuilt=true
   build-pytorch-cuda:
@@ -224,12 +224,12 @@ jobs:
         with:
           imagename: moonvision/${{ env.IMAGE_PRE }}custom-builds
           additionaltag: pytorch-cuda-3.13
-          tagversion: 2.0.1_torchvision-0.15.2
+          tagversion: 2.6.0_torchvision-0.15.2
           baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:3.13-latest
           path: docker/builders/pytorch
           dockerfile: docker/builders/pytorch/Dockerfile
           additional_buildargs: |-
-            pytorch_tag=v2.0.1
+            pytorch_tag=v2.6.0
             torchvision_tag=v0.15.2
             prebuilt=true
             with_cuda=true
