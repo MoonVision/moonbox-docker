@@ -1,2 +1,0 @@
-# pin pillow since 10.0.0 removed PIL.Image.ANTIALIAS
-pillow==9.5

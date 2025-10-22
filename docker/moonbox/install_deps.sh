@@ -26,7 +26,7 @@ apt-get install --yes --no-install-recommends \
 dpkg -i /ffmpeg-packages/*.deb
 rm -rf /ffmpeg-packages
 
-pip install --no-cache-dir /pytorch-packages/*.whl -c /bd_build/constraints.txt
+pip install --no-cache-dir /pytorch-packages/*.whl
 rm -rf /pytorch-packages
 
 if test "$with_cuda" = "true"; then
