@@ -23,13 +23,13 @@ jobs:
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}python-base
         path: docker/python-base
-        dockerfile: docker/python-base/Dockerfile
+        dockerfile: docker/python-base/DockerfileMicromamba
         baseimage: mambaorg/micromamba:1
     - uses: ./.github/create-docker
       with:
         imagename: moonvision/${{ env.IMAGE_PRE }}python-base
         path: docker/python-base
-        dockerfile: docker/python-base/Dockerfile
+        dockerfile: docker/python-base/DockerfileMicromamba
         baseimage: mambaorg/micromamba:1
         additionaltag: 3.11
         additional_buildargs: env_file=environment_3.11.yml
@@ -41,14 +41,14 @@ jobs:
         with:
           imagename: moonvision/${{ env.IMAGE_PRE }}python-base
           path: docker/python-base
-          dockerfile: docker/python-base/DockerfileUV
+          dockerfile: docker/python-base/Dockerfile
           additionaltag: uv
           additional_buildargs: python_version=3.8
       - uses: ./.github/create-docker
         with:
           imagename: moonvision/${{ env.IMAGE_PRE }}python-base
           path: docker/python-base
-          dockerfile: docker/python-base/DockerfileUV
+          dockerfile: docker/python-base/Dockerfile
           additionaltag: uv-3.11
           additional_buildargs: |-
             python_version=3.11
@@ -193,7 +193,7 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
         additionaltag: mini
         path: docker/moonbox
-        dockerfile: docker/moonbox/Dockerfile
+        dockerfile: docker/moonbox/DockerfileMicromamba
         baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:latest
         additional_buildargs: |-
           ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
@@ -211,7 +211,7 @@ jobs:
           imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
           additionaltag: mini-3.11
           path: docker/moonbox
-          dockerfile: docker/moonbox/Dockerfile
+          dockerfile: docker/moonbox/DockerfileMicromamba
           baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:3.11-latest
           additional_buildargs: |-
             ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
@@ -229,7 +229,7 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
         additionaltag: cuda
         path: docker/moonbox
-        dockerfile: docker/moonbox/Dockerfile
+        dockerfile: docker/moonbox/DockerfileMicromamba
         baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:latest
         additional_buildargs: |-
           with_cuda=true
@@ -248,7 +248,7 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
         additionaltag: cuda-3.11
         path: docker/moonbox
-        dockerfile: docker/moonbox/Dockerfile
+        dockerfile: docker/moonbox/DockerfileMicromamba
         baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:3.11-latest
         additional_buildargs: |-
           with_cuda=true
@@ -266,7 +266,7 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
         additionaltag: mini-uv
         path: docker/moonbox
-        dockerfile: docker/moonbox/DockerfileUV
+        dockerfile: docker/moonbox/Dockerfile
         baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:uv-latest
         additional_buildargs: |-
           ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
@@ -282,7 +282,7 @@ jobs:
           imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
           additionaltag: mini-uv-3.11
           path: docker/moonbox
-          dockerfile: docker/moonbox/DockerfileUV
+          dockerfile: docker/moonbox/Dockerfile
           baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:uv-3.11-latest
           additional_buildargs: |-
             ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
@@ -298,7 +298,7 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
         additionaltag: cuda-uv
         path: docker/moonbox
-        dockerfile: docker/moonbox/DockerfileUV
+        dockerfile: docker/moonbox/Dockerfile
         baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:uv-latest
         additional_buildargs: |-
           with_cuda=true
@@ -315,7 +315,7 @@ jobs:
         imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
         additionaltag: cuda-uv-3.11
         path: docker/moonbox
-        dockerfile: docker/moonbox/DockerfileUV
+        dockerfile: docker/moonbox/Dockerfile
         baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:uv-3.11-latest
         additional_buildargs: |-
           with_cuda=true
