@@ -52,6 +52,14 @@ jobs:
           additionaltag: uv-3.11
           additional_buildargs: |-
             python_version=3.11
+      - uses: ./.github/create-docker
+        with:
+          imagename: moonvision/${{ env.IMAGE_PRE }}python-base
+          path: docker/python-base
+          dockerfile: docker/python-base/Dockerfile
+          additionaltag: uv-3.13
+          additional_buildargs: |-
+            python_version=3.13
   build-ffmpeg:
     runs-on: ubuntu-latest
     steps:
