@@ -1,9 +1,18 @@
-ARG baseimage='mambaorg/micromamba:1.0.0'
+ARG python_version
+# This stage is copied from mambaorg/micromamba Dockerfile and contains everything except the actual micromamba stuff
+FROM ghcr.io/astral-sh/uv:python${python_version}-bookworm-slim AS preparation_stage
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+ARG CERT_SOURCE='/etc/ssl/certs/ca-certificates.crt'
+ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
+ENV ENV_NAME="base"
+
+# Default command for "docker run"
+CMD ["/bin/bash"]
 
 # Build runit-docker
-FROM ${baseimage} AS build_runit_docker
-
-USER root
+FROM preparation_stage AS build_runit_docker
 
 RUN apt-get update \
  && apt-get install -y curl make gcc libc-dev checkinstall --no-install-recommends \
@@ -17,24 +26,9 @@ RUN cd /tmp \
  && mkdir /packages \
  && mv *.deb /packages
 
-FROM ${baseimage}
+FROM preparation_stage
 
-# Install python
-COPY --chown=$MAMBA_USER:$MAMBA_USER . /home/$MAMBA_USER/bd_build
-ARG env_file='environment.yml'
-RUN micromamba install -y -f /home/$MAMBA_USER/bd_build/$env_file && \
-    micromamba clean -yaf
-
-# Manifest mamba python for exec environments
-ENV CPATH "$MAMBA_ROOT_PREFIX/include"
-ENV PATH "$MAMBA_ROOT_PREFIX/bin:$PATH"
-
-USER root
-# You may seal production images by running:
-#USER $MAMBA_USER
-
-# adduser template of $MAMBA_USER
-RUN echo "SKEL=/home/$MAMBA_USER" >> /etc/default/useradd
+SHELL ["/bin/bash", "-c"]
 
 # Install other tools
 ARG DEBIAN_FRONTEND=noninteractive
@@ -47,6 +41,13 @@ RUN apt-get update -y \
   && apt-get purge --autoremove --yes python python3 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
+
+# Configure uv
+# Without this you will have to pass `--no-sync` for each `uv run` call, because it will try to install dev requirements otherwise
+ENV UV_NO_SYNC=true
+# Next two are needed, because otherwise uv cannot find certificates
+ENV UV_NATIVE_TLS=true \
+    SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
 # Install runit-docker
 COPY --from=build_runit_docker /packages /packages
