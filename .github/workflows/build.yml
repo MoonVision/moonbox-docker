@@ -294,6 +294,22 @@ jobs:
           baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:uv-3.11-latest
           additional_buildargs: |-
             ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
+  docker-moonbox-mini-uv-313:
+    needs:
+      - docker-python-base-uv
+      - build-ffmpeg
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/create-docker
+        with:
+          imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
+          additionaltag: mini-uv-3.13
+          path: docker/moonbox
+          dockerfile: docker/moonbox/Dockerfile
+          baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:uv-3.13-latest
+          additional_buildargs: |-
+            ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-4.2.1
   docker-moonbox-cuda-uv:
     needs:
     - docker-python-base-uv
@@ -325,6 +341,23 @@ jobs:
         path: docker/moonbox
         dockerfile: docker/moonbox/Dockerfile
         baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:uv-3.11-latest
+        additional_buildargs: |-
+          with_cuda=true
+          ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-cuda-4.2.1
+  docker-moonbox-cuda-uv-313:
+    needs:
+    - docker-python-base-uv
+    - build-ffmpeg-cuda
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: ./.github/create-docker
+      with:
+        imagename: moonvision/${{ env.IMAGE_PRE }}moonbox
+        additionaltag: cuda-uv-3.13
+        path: docker/moonbox
+        dockerfile: docker/moonbox/Dockerfile
+        baseimage: moonvision/${{ env.IMAGE_PRE }}python-base:uv-3.13-latest
         additional_buildargs: |-
           with_cuda=true
           ffmpeg_from_docker=moonvision/${{ env.IMAGE_PRE }}custom-builds:ffmpeg-cuda-4.2.1
